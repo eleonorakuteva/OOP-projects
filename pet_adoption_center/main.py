@@ -1,5 +1,7 @@
 from adoption_center import AdoptionCenter
 from pet import Pet
+from adopter import Adopter
+from worker import Worker
 
 
 if __name__ == "__main__":
@@ -21,7 +23,7 @@ if __name__ == "__main__":
     adopter1.adopt_pet(pet1, center1)
     adopter1.adopt_pet(pet3,center1)
     adopter1.return_pet(pet1, center1)
-    # adopter1.adopt_pet(pet2,center1)
+    adopter1.adopt_pet(pet2,center1)
     print(adopter1.user_adopted_pets())
     adopter1.return_pet(pet3,center1)
     adopter1.adopt_pet(pet1,center1)
@@ -38,8 +40,8 @@ if __name__ == "__main__":
 # adopter1.adopt_pet(pet1, center1)
 # print(worker)
 # print(adopter1)
-
-
+#
+#
 # adopter1 = Adopter("Maria", None)
 # worker.add_pet(pet1, adoption_center)
 # worker.add_pet(pet2, adoption_center)
