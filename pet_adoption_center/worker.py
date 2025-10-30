@@ -1,3 +1,5 @@
+from adopter import Adopter
+
 class Worker(Adopter):
 
     def __init__(self, name:str, worker_id:str, adopted_pets_by_user = None):
