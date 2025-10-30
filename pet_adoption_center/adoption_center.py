@@ -1,6 +1,6 @@
 class AdoptionCenter:
 
-    def __init__(self, name:str, list_of_pets = None):
+    def __init__(self, name:str, list_of_pets:list = None):
         self.name = name
         self.list_of_pets = list_of_pets if list_of_pets is not None else []
 
