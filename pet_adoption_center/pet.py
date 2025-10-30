@@ -11,7 +11,7 @@ class Pet:
                 }
 
     def search_by_species(self, species_key):
-        matches = {species_key for species_key, value in self.pet_dict()}
+        matches = [value for species, value in self.pet_dict() if species == species_key]
         return matches
 
     def __repr__(self):
