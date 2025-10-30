@@ -1,8 +1,10 @@
+from pet import Pet
+
 class AdoptionCenter:
 
     def __init__(self, name:str, list_of_pets:list = None):
         self.name = name
-        self.list_of_pets = list_of_pets if list_of_pets is not None else []
+        self.list_of_pets:list [Pet] = list_of_pets if list_of_pets is not None else []
 
     def __repr__(self):
         return (f"{self.name} is a adoption center, where you can adopt your future pet!\n"
