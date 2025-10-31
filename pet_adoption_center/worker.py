@@ -22,11 +22,12 @@ class Worker(Adopter):
                 center.list_of_pets.remove(pet)
                 pet.is_in_adoption_center = False
                 return f"{pet} is successfully removed from Adoption center - {center.name}"
-            else:
-                print(f"The {pet.species.lower()} {pet.name.title()} is NOT in Adoption center - {center.name}.\n"
+            return (f"The {pet.species.lower()} {pet.name.title()} is NOT in Adoption center - {center.name}.\n"
                       f"Worker can not remove it from adoption center.")
         return f"Worker does not have valid id."
 
-    def __repr__(self) -> str:
+
+    def __str__(self) -> str:
         return (f"Worker name: {self.name}.\n"
                 f"Worker Id: {self._worker_id}, valid = {self.is_id_valid()}.")
+
