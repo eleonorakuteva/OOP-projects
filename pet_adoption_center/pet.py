@@ -6,11 +6,12 @@ def get_all_registered_pets() -> str:
 class Pet:
     all_pets:dict[str,{str, bool|int|str}] = {}
 
-    def __init__(self, name:str, species:str, age:int):
+    def __init__(self, name:str, species:str, age:int) -> None:
         self.name = name
         self.species = species
         self.age = age
         self.is_adopted:bool = False
+        self.is_in_adoption_center = False
 
         # Add this pet to the shared class-level dictionary
         Pet.all_pets.setdefault(species, []).append({
