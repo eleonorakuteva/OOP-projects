@@ -35,6 +35,6 @@ class Adopter:
             return f"{self.name} ({type(self).__name__}) has no adopted pet yet."
 
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return (f"{type(self).__name__} name: {self.name}.\n"
                 f"{self.user_adopted_pets()}")
