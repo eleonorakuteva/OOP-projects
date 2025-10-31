@@ -2,9 +2,9 @@ from pet import Pet
 from adoption_center import AdoptionCenter
 
 class Adopter:
-    def __init__(self, name:str, adopted_pets_by_user:Pet = None):
+    def __init__(self, name:str, adopted_pets_by_user:Pet = None) -> None:
         self.name = name
-        self.adopted_pets_by_user:list [Pet] = adopted_pets_by_user if adopted_pets_by_user is not None else []
+        self.adopted_pets_by_user: list[Pet] = adopted_pets_by_user if adopted_pets_by_user is not None else []
 
     def adopt_pet(self, pet:Pet, center:AdoptionCenter) -> str:
         if pet in center.list_of_pets:
@@ -18,6 +18,8 @@ class Adopter:
 
     def return_pet(self, pet:Pet, center:AdoptionCenter) -> str:
         if pet in self.adopted_pets_by_user:
+            pet.is_in_adoption_center = True
+            pet.is_adopted = False
             center.list_of_pets.append(pet)
             self.adopted_pets_by_user.remove(pet)
             return f"{self.name} ({type(self).__name__}) successfully returned {pet} to adoption center - {center.name.title()}."
@@ -33,6 +35,6 @@ class Adopter:
             return f"{self.name} ({type(self).__name__}) has no adopted pet yet."
 
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (f"{type(self).__name__} name: {self.name}.\n"
                 f"{self.user_adopted_pets()}")
