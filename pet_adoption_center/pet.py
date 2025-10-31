@@ -22,5 +22,5 @@ class Pet:
 
 
     def __repr__(self) -> str:
-        return f"{self.name}, the {self.species}, age {self.age}"
+        return f"{self.name}, the {self.species.lower()}, age {self.age}"
 
