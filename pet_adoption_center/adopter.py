@@ -6,17 +6,17 @@ class Adopter:
         self.name = name
         self.adopted_pets_by_user:list [Pet] = adopted_pets_by_user if adopted_pets_by_user is not None else []
 
-    def adopt_pet(self, pet:Pet, center:AdoptionCenter):
+    def adopt_pet(self, pet:Pet, center:AdoptionCenter) -> str:
         if pet in center.list_of_pets:
             self.adopted_pets_by_user.append(pet)
             center.list_of_pets.remove(pet)
             pet.is_adopted = True
-            print(f"{self.name} ({type(self).__name__}) successfully adopted {pet}")
-        else:
-            print(f"The {pet.species.lower()} {pet.name.title()} is NOT in Adoption center - {center.name}.\n"
-                  f"You can NOT adopt it from there.")
+            pet.is_in_adoption_center = False
+            return f"{self.name} ({type(self).__name__}) successfully adopted {pet}"
+        return (f"The {pet.species.lower()} {pet.name.title()} is NOT in Adoption center - {center.name}.\n"
+                  f"{self.name} ({type(self).__name__}) can NOT adopt it from there.")
 
-    def return_pet(self, pet:Pet, center:AdoptionCenter):
+    def return_pet(self, pet:Pet, center:AdoptionCenter) -> str:
         if pet in self.adopted_pets_by_user:
             center.list_of_pets.append(pet)
             self.adopted_pets_by_user.remove(pet)
