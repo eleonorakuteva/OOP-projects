@@ -24,7 +24,8 @@ project/
 - ├── adoption_center.py
 - ├── adopter.py
 - ├── worker.py
-- └── main.py - for testing
+- ├── main.py - for testing
+- └── README.md
 
 ---
 
