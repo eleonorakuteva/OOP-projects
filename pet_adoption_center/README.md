@@ -18,14 +18,14 @@ The project models the real-world relationships between:
 
 ## 🧱 Project Structure
 
-project/
-- │
-- ├── pet.py
-- ├── adoption_center.py
-- ├── adopter.py
-- ├── worker.py
-- ├── main.py - for testing
-- └── README.md
+pet_adoption_center (project)/  
+│   
+├── pet.py   
+├── adoption_center.py   
+├── adopter.py   
+├── worker.py   
+├── main.py - for testing   
+└── README.md   
 
 ---
 
