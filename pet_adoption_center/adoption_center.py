@@ -6,15 +6,15 @@ class AdoptionCenter:
         self.name = name
         self.list_of_pets:list[Pet] = list_of_pets if list_of_pets is not None else []
 
-    def __repr__(self):
-        return (f"{self.name} is a adoption center, where you can adopt your future pet!\n"
+    def __str__(self):
+        return (f"{self.name} is an adoption center, where you can adopt your future pet!\n"
                 f"{self.list_available_pets()} ")
 
     def list_available_pets(self):
         available_pets = [f"{pet}" for pet in self.list_of_pets]
         if available_pets:
             return (f"Available pets you can adopt in {self.name}:\n-> "
-                    f"{"\n-> ".join(available_pets)}")
+                    f"{'\n-> '.join(available_pets)}")
         else:
             return f"Currently Adoption center - {self.name} does not have animals to adopt."
 
