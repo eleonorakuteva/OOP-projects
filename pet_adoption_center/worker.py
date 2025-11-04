@@ -14,8 +14,10 @@ class Worker(Adopter):
 
     @worker_id.setter
     def worker_id(self, value):
-        if len(value) == 8 and value.isdigit():
-            self.__worker_id = value
+        if len(value) != 8 and not value.isdigit():
+            raise ValueError("Worker ID it is not correct.")
+        self.__worker_id = value
+
 
     def is_id_valid(self) -> bool:
         return len(self.__worker_id) == 8 and self.__worker_id.isdigit()
