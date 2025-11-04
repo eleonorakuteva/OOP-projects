@@ -13,6 +13,7 @@ It demonstrates classes, inheritance, encapsulation, and class-level data manage
 🔹 Class vs. Instance Attributes   
 🔹 Inheritance  
 🔹 Data Encapsulation  
+🔹 Getter and Setter methods  
 🔹 Clean Code & Type Hinting  
 🔹 String formatting  
 
