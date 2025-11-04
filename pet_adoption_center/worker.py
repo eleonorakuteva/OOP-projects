@@ -6,10 +6,19 @@ class Worker(Adopter):
 
     def __init__(self, name:str, worker_id:str, adopted_pets_by_user = None) -> None:
         super().__init__(name, adopted_pets_by_user)
-        self._worker_id = worker_id
+        self.worker_id = worker_id
+
+    @property
+    def worker_id(self):
+        return self.__worker_id
+
+    @worker_id.setter
+    def worker_id(self, value):
+        if len(value) == 8 and value.isdigit():
+            self.__worker_id = value
 
     def is_id_valid(self) -> bool:
-        return len(self._worker_id) == 8 and self._worker_id.isdigit()
+        return len(self.__worker_id) == 8 and self.__worker_id.isdigit()
 
     def add_pet(self, pet:Pet, center:AdoptionCenter) -> None:
         if self.is_id_valid() and not pet.is_in_adoption_center:
@@ -29,5 +38,5 @@ class Worker(Adopter):
 
     def __str__(self) -> str:
         return (f"Worker name: {self.name}.\n"
-                f"Worker Id: {self._worker_id}, valid = {self.is_id_valid()}.")
+                f"Worker Id: {self.__worker_id}, valid = {self.is_id_valid()}.")
 
