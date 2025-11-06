@@ -11,3 +11,6 @@ class Restaurant:
 
     def add_waiter(self):
         pass
+
+    def add_customer(self):
+        pass
