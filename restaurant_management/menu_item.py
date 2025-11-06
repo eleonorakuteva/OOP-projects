@@ -3,6 +3,8 @@ class MenuItem:
     Represents a single item (e.g., Pizza, Coke, Tiramisu).
     Stores name, category, price.
     """
+    categories_list = ["Starter", "Main", "Dessert", "Drink"]
+    
     def __init__(self, name:str, category:str, price:float):
         self.name = name
         self.category = category
@@ -18,15 +20,15 @@ class MenuItem:
             raise ValueError("The item name cannot be an empty string")
         self.__name = value
 
-        
+
     @property
     def category(self):
         return self.__category
 
     @category.setter
     def category(self, value):
-        if value == "":
-            raise ValueError("The category cannot be an empty string")
+        if value not in MenuItem.categories_list:
+            raise ValueError('The category must be between these options ["Starter", "Main", "Dessert", "Drink"]')
         self.__category = value
 
 
