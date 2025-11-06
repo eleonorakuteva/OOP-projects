@@ -7,3 +7,7 @@ class Restaurant:
         self.name = name
         self.__list_of_customers: list[Customer] = []
         self.__list_of_waiters: list[Waiter] = []
+        self.total_earnings = 0
+
+    def add_waiter(self):
+        pass
