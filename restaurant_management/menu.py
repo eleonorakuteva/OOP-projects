@@ -14,9 +14,11 @@ class Menu:
     def display_menu(self):
         result = []
         for category, item_dict in self.menu.items():
-            result.append(f"{5 * '='} {category} {5 * '='}")
-            for dish, price in item_dict.items():
-                result.append(f"    -> {dish} : {price:.2f}")
+            result.append(f"{5 * '='} {category} {5 * '='}".center(40))
+            for dish_, price in item_dict.items():
+                result.append(f"{dish_} : {price:.2f}".center(40))
+
+        return '\n'.join(result)
 
     def add_dish(self, dish: MenuItem):
         if dish.category not in self.menu.keys():
@@ -27,3 +29,10 @@ class Menu:
 
         self.menu[dish.category][dish.name] = dish.price
         return f"{dish.name.title()} is successfully added to the menu!"
+
+cake = MenuItem("cake", "Dessert", 9.99)
+pizza = MenuItem("Margaritta", "Main", 19.99)
+menu = Menu()
+print(menu.add_dish(cake))
+print(menu.add_dish(pizza))
+print(menu.display_menu())
