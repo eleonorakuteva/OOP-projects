@@ -17,3 +17,13 @@ class Menu:
             result.append(f"{5 * '='} {category} {5 * '='}")
             for dish, price in item_dict.items():
                 result.append(f"    -> {dish} : {price:.2f}")
+
+    def add_dish(self, dish: MenuItem):
+        if dish.category not in self.menu.keys():
+            self.menu[dish.category] = {}
+
+        if dish.name in self.menu[dish.category].items():
+            return f"{dish.name.title()} is already in the menu!"
+
+        self.menu[dish.category][dish.name] = dish.price
+        return f"{dish.name.title()} is successfully added to the menu!"
