@@ -4,7 +4,7 @@ from menu_item import MenuItem
 class Menu:
     """
     Contains a collection dict of MenuItem objects.
-    Adds, removes, and retrieves items.
+    Adds and removes items.
     Displays the full restaurant menu grouped by category.
     """
     def __init__(self) -> None:
@@ -12,7 +12,7 @@ class Menu:
 
 
     def display_menu(self):
-        result = []
+        result = [f"{7 * '='} MENU {7 * '='}".center(40)]
         for category, item_dict in self.menu.items():
             result.append(f"{5 * '='} {category} {5 * '='}".center(40))
             for dish_, price in item_dict.items():
