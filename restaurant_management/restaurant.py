@@ -32,7 +32,7 @@ class Restaurant:
             self.__name = value.title()
         raise ValueError("Restaurant name must contain at least 3 letters.")
 
-    def add_customer(self, customer:Customer):
+    def hire_customer(self, customer:Customer):
         try:
             self.__list_of_customers.append(customer)
         except AttributeError:
