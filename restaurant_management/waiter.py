@@ -1,7 +1,13 @@
+from restaurant import Restaurant
+from customer import Customer
+
+
 class Waiter:
-    def __init__(self, name:str, id_:int):
+    def __init__(self, name:str, id_:int, restaurant: Restaurant):
         self.name = name
         self.id = id_
+        self.restaurant = restaurant
+        self.tip: float = 0.0
 
     @property
     def name(self):
@@ -24,4 +30,14 @@ class Waiter:
             self.__id = value
         else:
             raise ValueError("The id must contain 8 digits.")
+
+
+    def take_order(self, customer: Customer, *args):
+        pass
+
+
+    def create_payment(self, customer: Customer, method:str):
+        pass
+
+
 
