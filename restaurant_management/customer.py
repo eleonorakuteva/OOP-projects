@@ -25,9 +25,6 @@ class Customer:
     def order_dish(self, restaurant: Restaurant, dish_name: str) -> str:
         pass
 
-    def cancel_order(self, dish_name: str) -> str:
-        pass
-
     def view_orders(self) -> str:
         pass
 
