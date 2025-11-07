@@ -15,10 +15,10 @@ class MenuItem:
         return self.__name
 
     @name.setter
-    def name(self, value):
+    def name(self, value:str):
         if value == "":
             raise ValueError("The item name cannot be an empty string")
-        self.__name = value
+        self.__name = value.title()
 
 
     @property
@@ -26,10 +26,10 @@ class MenuItem:
         return self.__category
 
     @category.setter
-    def category(self, value):
-        if value not in MenuItem.categories_list:
+    def category(self, value: str):
+        if value.title() not in MenuItem.categories_list:
             raise ValueError('The category must be between these options ["Starter", "Main", "Dessert", "Drink"]')
-        self.__category = value
+        self.__category = value.title()
 
 
     @property
