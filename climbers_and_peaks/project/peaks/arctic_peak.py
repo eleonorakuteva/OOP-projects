@@ -8,7 +8,9 @@ class ArcticPeak(BasePeak):
         return ["Ice axe", "Crampons", "Insulated clothing", "Helmet"]
 
     @property
-    def difficulty_level(self) -> dict:
+    def difficulty_levels(self) -> dict:
         levels = {"Advanced": range(2000, 3001), "Extreme": range(3001, BasePeak.EVEREST_HEIGHT + 1)}
         return levels
+
+
 
