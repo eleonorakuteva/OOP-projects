@@ -3,8 +3,9 @@ from abc import ABC, abstractmethod
 
 class BasePeak(ABC):
 
-    MIN_LENGTH_NAME = 2
-    MIN_ELEVATION = 1_500
+    MIN_LENGTH_NAME: int  = 2
+    MIN_ELEVATION: int = 1_500
+    EVEREST_HEIGHT: int = 8_849
 
     def __init__(self, name: str, elevation: int) -> None:
         self.name = name
@@ -12,12 +13,12 @@ class BasePeak(ABC):
 
     @property
     @abstractmethod
-    def recommended_gear(self):
+    def recommended_gear(self) -> list:
         pass
 
     @property
     @abstractmethod
-    def difficulty_level(self):
+    def difficulty_level(self) -> dict:
         pass
 
     @property
@@ -42,14 +43,18 @@ class BasePeak(ABC):
 
 
     def get_recommended_gear(self):
-        """each type of peak has specific requirements for the gear"""
-        pass
+        """Each type of peak has specific requirements for the gear"""
+        return self.recommended_gear
 
 
-    def calculate_difficulty_level(self):
+    def calculate_difficulty_level(self) -> str:
         """
         The difficulty levels are "Extreme" and "Advanced".
         Different for different peaks.
         """
-        pass
+        for level, level_range in self.difficulty_level.items():
+            if self.elevation in level_range:
+                return level
+
+
         
