@@ -9,7 +9,7 @@ class BaseClimber(ABC):
     def __init__(self, name: str, strength: float):
         self.name = name
         self.strength = strength
-        self.conquered_peaks: list[BasePeak] = []
+        self.conquered_peaks: list[str] = []
         self.is_prepared: bool = True
 
     @property
@@ -50,4 +50,4 @@ class BaseClimber(ABC):
         return self.__strength + BaseClimber.POINTS_PER_REST
 
     def __str__(self) -> str:
-        return f"{type(self).__name__}: /// Climber name: {self.__name} * Left strength: {self.__strength} * Conquered peaks: {', '.join(p.name for p in self.conquered_peaks)} ///"
+        return f"{type(self).__name__}: /// Climber name: {self.__name} * Left strength: {self.__strength} * Conquered peaks: {', '.join(p for p in self.conquered_peaks)} ///"
