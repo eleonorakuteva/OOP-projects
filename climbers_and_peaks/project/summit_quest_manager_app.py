@@ -95,6 +95,63 @@ class SummitQuestManagerApp:
         climber.climb(peak)
         return f"{climber_name} conquered {peak_name} whose difficulty level is {peak.difficulty_level}."
 
-    def get_statistics (self):
-        pass
+    def get_statistics (self) -> str:
+        """
+        Returns detailed information about the Summit Quest.
+        Only climbers who successfully manage to conquer peaks are included.
+        Ordered by the conquered peak in descending order.
+        If there is more than one climber with the same number of conquered peaks, then they are ordered by climber name alphabetically.
+
+        :return: str
+        """
+        climbers_with_conquer_peaks: list[BaseClimber] = [c for c in self.climbers if len(c.conquered_peaks) > 0]
+
+        sorted_climbers = sorted(climbers_with_conquer_peaks, key = lambda c: (-len(c.conquered_peaks), c.name))
+
+        total_peaks_climbed = len({p for c in sorted_climbers for p in c.conquered_peaks})
+
+        result = [f"Total climbed peaks: {total_peaks_climbed}", "**Climber's statistics:**"]
+
+        for climber in sorted_climbers:
+            result.append(str(climber))
+        return '\n'.join(result)
+
+# Create an instance of SummitQuestManagerApp
+climbing_app = SummitQuestManagerApp()
+
+# Register climbers
+print(climbing_app.register_climber("ArcticClimber", "Alice"))
+print(climbing_app.register_climber("SummitClimber", "Bob"))
+print(climbing_app.register_climber("ExtremeClimber", "Dave"))
+print(climbing_app.register_climber("ArcticClimber", "Charlie"))
+print(climbing_app.register_climber("ArcticClimber", "Alice"))
+print(climbing_app.register_climber("SummitClimber", "Eve"))
+print(climbing_app.register_climber("SummitClimber", "Frank"))
+
+# Add peaks to the wish list
+print(climbing_app.peak_wish_list("ArcticPeak", "MountEverest", 4000))
+print(climbing_app.peak_wish_list("SummitPeak", "K2", 3000))
+print(climbing_app.peak_wish_list("ArcticPeak", "Denali", 2500))
+print(climbing_app.peak_wish_list("UnchartedPeak", "MysteryMountain", 2000))
+
+# Prepare climbers for climbing
+print(climbing_app.check_gear("Alice", "MountEverest", ["Ice axe", "Crampons", "Insulated clothing", "Helmet"]))
+print(climbing_app.check_gear("Bob", "K2", ["Climbing helmet", "Harness", "Climbing shoes", "Ropes"]))
+print(climbing_app.check_gear("Charlie", "Denali", ["Ice axe", "Crampons"]))
+
+# Perform climbing
+print(climbing_app.perform_climbing("Alice", "MountEverest"))
+print(climbing_app.perform_climbing("Bob", "K2"))
+print(climbing_app.perform_climbing("Kelly", "Denali"))
+print(climbing_app.perform_climbing("Alice", "K2"))
+print(climbing_app.perform_climbing("Alice", "MysteryMountain"))
+print(climbing_app.perform_climbing("Eve", "MountEverest"))
+print(climbing_app.perform_climbing("Charlie", "MountEverest"))
+print(climbing_app.perform_climbing("Frank", "K2"))
+print(climbing_app.perform_climbing("Frank", "Denali"))
+print(climbing_app.perform_climbing("Frank", "MountEverest"))
+
+# Get statistics
+print(climbing_app.get_statistics())
+
 
