@@ -7,14 +7,13 @@ class SummitClimber(BaseClimber):
     INITIAL_STRENGTH: float = 150
     NEEDED_STRENGTH_FOR_CLIMBING: float = 75
 
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         super().__init__(name, SummitClimber.INITIAL_STRENGTH)
 
     def can_climb(self) -> bool:
-        return self.strength >= self.NEEDED_STRENGTH_FOR_CLIMBING
+        return self.strength >= SummitClimber.NEEDED_STRENGTH_FOR_CLIMBING
 
-
-    def climb(self, peak: BasePeak):
+    def climb(self, peak: BasePeak) -> None:
         if peak.difficulty_level == "Extreme":
             self.strength -= (30 * 2.5)
 
