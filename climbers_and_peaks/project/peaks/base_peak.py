@@ -3,18 +3,13 @@ from abc import ABC, abstractmethod
 
 class BasePeak(ABC):
 
-    MIN_LENGTH_NAME: int  = 2
+    MIN_LENGTH_NAME: int = 2
     MIN_ELEVATION: int = 1_500
 
     def __init__(self, name: str, elevation: int) -> None:
         self.name = name
         self.elevation = elevation
-        self.difficulty_level:str | None = self.calculate_difficulty_level()
-
-    @property
-    @abstractmethod
-    def recommended_gear(self) -> list:
-        pass
+        self.difficulty_level: str | None = self.calculate_difficulty_level()
 
     @property
     def name(self):
@@ -23,7 +18,7 @@ class BasePeak(ABC):
     @name.setter
     def name(self, value: str):
         if len(value.strip()) < BasePeak.MIN_LENGTH_NAME:
-            raise ValueError("Peak name cannot be less than 2 symbols!")
+            raise ValueError(f"Peak name cannot be less than {BasePeak.MIN_LENGTH_NAME} symbols!")
         self.__name = value
 
     @property
@@ -33,13 +28,14 @@ class BasePeak(ABC):
     @elevation.setter
     def elevation(self, value: int):
         if value < BasePeak.MIN_ELEVATION:
-            raise ValueError("Peak elevation cannot be below 1500m.")
+            raise ValueError(f"Peak elevation cannot be below {BasePeak.MIN_ELEVATION}m.")
         self.__elevation = value
 
-
+    @abstractmethod
     def get_recommended_gear(self) -> list[str]:
         """Each type of peak has specific requirements for the gear"""
-        return self.recommended_gear
+        pass
+        # return self.recommended_gear
 
     @abstractmethod
     def calculate_difficulty_level(self) -> str:
