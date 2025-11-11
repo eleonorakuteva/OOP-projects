@@ -33,9 +33,14 @@ class BaseClimber(ABC):
         self.__strength = value
 
     @abstractmethod
-    def can_climb(self):
+    def can_climb(self) -> bool:
+        """
+        The method checks whether the climber has enough strength required to attempt a climb.
+        :return: bool
+        """
         pass
 
+    @abstractmethod
     def climb(self, peak: BasePeak):
         """
         The method takes a peak parameter that represents the peak
@@ -44,6 +49,7 @@ class BaseClimber(ABC):
         level, and a list is collected of conquered peaks by each climber.
         """
         pass
+
 
     def rest(self) -> float:
         """ Increases the climber's strength """
