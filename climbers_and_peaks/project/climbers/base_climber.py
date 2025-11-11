@@ -51,9 +51,12 @@ class BaseClimber(ABC):
         pass
 
 
-    def rest(self) -> float:
+    def rest(self) -> None:
         """ Increases the climber's strength """
-        return self.__strength + BaseClimber.POINTS_PER_REST
+        self.__strength += BaseClimber.POINTS_PER_REST
 
     def __str__(self) -> str:
-        return f"{type(self).__name__}: /// Climber name: {self.__name} * Left strength: {self.__strength} * Conquered peaks: {', '.join(p for p in self.conquered_peaks)} ///"
+        return (f"{type(self).__name__}: /// "
+                f"Climber name: {self.__name} * "
+                f"Left strength: {float(self.__strength)} * "
+                f"Conquered peaks: {', '.join(sorted(self.conquered_peaks))} ///")
