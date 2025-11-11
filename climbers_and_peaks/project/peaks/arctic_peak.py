@@ -7,10 +7,11 @@ class ArcticPeak(BasePeak):
     def recommended_gear(self) -> list:
         return ["Ice axe", "Crampons", "Insulated clothing", "Helmet"]
 
-    @property
-    def difficulty_levels(self) -> dict:
-        levels = {"Advanced": range(2000, 3001), "Extreme": range(3001, BasePeak.EVEREST_HEIGHT + 1)}
-        return levels
+    def calculate_difficulty_level(self) -> str:
+        if 2_000 <= self.elevation <= 3_000:
+            return "Advanced"
+        elif self.elevation > 3000:
+            return "Extreme"
 
 
 
