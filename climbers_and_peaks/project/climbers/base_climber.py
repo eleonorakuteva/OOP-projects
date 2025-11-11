@@ -56,7 +56,7 @@ class BaseClimber(ABC):
         self.__strength += BaseClimber.POINTS_PER_REST
 
     def __str__(self) -> str:
-        return (f"{type.__class__.__name__}: /// "
+        return (f"{type(self).__name__}: /// "
                 f"Climber name: {self.__name} * "
                 f"Left strength: {float(self.__strength)} * "
                 f"Conquered peaks: {', '.join(sorted(self.conquered_peaks))} ///")
