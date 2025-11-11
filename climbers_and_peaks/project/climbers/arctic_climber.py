@@ -4,7 +4,7 @@ from project.peaks.base_peak import BasePeak
 
 class ArcticClimber(BaseClimber):
 
-    INITIAL_STRENGTH: int = 200
+    INITIAL_STRENGTH: float = 200
     NEEDED_STRENGTH_FOR_CLIMBING: int = 100
 
     def __init__(self, name):
@@ -15,9 +15,9 @@ class ArcticClimber(BaseClimber):
 
     def climb(self, peak: BasePeak):
         if peak.difficulty_level == "Extreme":
-            self.strength = (self.strength - 20) * 2
+            self.strength -= 20 * 2
         elif peak.difficulty_level == "Advanced":
-            self.strength = (self.strength - 20) * 1.5
+            self.strength -= 20 * 1.5
 
         self.conquered_peaks.append(peak.name)
 
