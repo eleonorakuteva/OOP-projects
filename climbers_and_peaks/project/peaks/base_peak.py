@@ -43,7 +43,7 @@ class BasePeak(ABC):
         self.__elevation = value
 
 
-    def get_recommended_gear(self):
+    def get_recommended_gear(self) -> list[str]:
         """Each type of peak has specific requirements for the gear"""
         return self.recommended_gear
 
