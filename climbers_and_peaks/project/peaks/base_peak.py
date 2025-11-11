@@ -18,11 +18,6 @@ class BasePeak(ABC):
         pass
 
     @property
-    @abstractmethod
-    def difficulty_levels(self) -> dict:
-        pass
-
-    @property
     def name(self):
         return self.__name
 
@@ -47,15 +42,14 @@ class BasePeak(ABC):
         """Each type of peak has specific requirements for the gear"""
         return self.recommended_gear
 
-
+    @abstractmethod
     def calculate_difficulty_level(self) -> str:
         """
         The difficulty levels are "Extreme" and "Advanced".
         Different for different peaks.
         """
-        for level, level_range in self.difficulty_levels.items():
-            if self.elevation in level_range:
-                return level
+        pass
+
 
 
         
