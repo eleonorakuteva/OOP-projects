@@ -5,7 +5,6 @@ class BasePeak(ABC):
 
     MIN_LENGTH_NAME: int  = 2
     MIN_ELEVATION: int = 1_500
-    EVEREST_HEIGHT: int = 8_849
 
     def __init__(self, name: str, elevation: int) -> None:
         self.name = name
