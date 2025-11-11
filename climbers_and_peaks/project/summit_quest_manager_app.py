@@ -58,11 +58,11 @@ class SummitQuestManagerApp:
         """
         climber: BaseClimber = next((c for c in self.climbers if c.name == climber_name), None)
         peak: BasePeak = next((p for p in self.peaks if p.name == peak_name), None)
-        if gear == peak.recommended_gear:
+        if gear == peak.get_recommended_gear():
             return f"{climber_name} is prepared to climb {peak_name}."
 
         climber.is_prepared = False
-        missing_gear = [g for g in sorted(peak.recommended_gear) if g not in gear]
+        missing_gear = [g for g in sorted(peak.get_recommended_gear()) if g not in gear]
 
         return (f"{climber_name} is not prepared to climb {peak_name}. "
                 f"Missing gear: {', '.join(missing_gear)}.")
