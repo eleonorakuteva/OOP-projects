@@ -10,6 +10,7 @@ class BasePeak(ABC):
     def __init__(self, name: str, elevation: int) -> None:
         self.name = name
         self.elevation = elevation
+        self.difficulty_level:str | None = self.calculate_difficulty_level()
 
     @property
     @abstractmethod
@@ -18,7 +19,7 @@ class BasePeak(ABC):
 
     @property
     @abstractmethod
-    def difficulty_level(self) -> dict:
+    def difficulty_levels(self) -> dict:
         pass
 
     @property
@@ -52,7 +53,7 @@ class BasePeak(ABC):
         The difficulty levels are "Extreme" and "Advanced".
         Different for different peaks.
         """
-        for level, level_range in self.difficulty_level.items():
+        for level, level_range in self.difficulty_levels.items():
             if self.elevation in level_range:
                 return level
 
