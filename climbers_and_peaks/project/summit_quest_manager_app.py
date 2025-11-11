@@ -20,7 +20,7 @@ class SummitQuestManagerApp:
 
     def __init__(self):
         self.climbers: list[BaseClimber] = []
-        self.peaks: list = [BasePeak]
+        self.peaks: list[BasePeak] = []
 
 
     def register_climber(self, climber_type: str, climber_name: str) -> str:
@@ -30,7 +30,6 @@ class SummitQuestManagerApp:
 
         except KeyError:
             return f"{climber_type} doesn't exist in our register."
-
 
         try:
             next(filter(lambda c: c.name == climber_name, self.climbers))
@@ -49,6 +48,7 @@ class SummitQuestManagerApp:
             return f"{peak_type} is an unknown type of peak."
 
         self.peaks.append(new_peak)
+
         return f"{peak_name} is successfully added to the wish list as a {peak_type}."
 
 
@@ -58,6 +58,7 @@ class SummitQuestManagerApp:
         """
         climber: BaseClimber = next((c for c in self.climbers if c.name == climber_name), None)
         peak: BasePeak = next((p for p in self.peaks if p.name == peak_name), None)
+
         if gear == peak.get_recommended_gear():
             return f"{climber_name} is prepared to climb {peak_name}."
 
@@ -81,7 +82,6 @@ class SummitQuestManagerApp:
             peak: BasePeak = next(filter(lambda p: p.name == peak_name, self.peaks))
         except StopIteration:
             return f"Peak {peak_name} is not part of the wish list."
-
 
         if not climber.is_prepared:
             return f"{climber_name} will need to be better prepared next time."
