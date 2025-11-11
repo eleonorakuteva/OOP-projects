@@ -7,8 +7,9 @@ class SummitPeak(BasePeak):
     def recommended_gear(self) -> list:
         return ["Climbing helmet", "Harness", "Climbing shoes", "Ropes"]
 
-    @property
-    def difficulty_levels(self) -> dict:
-        levels = {"Advanced": range(1500, 2501), "Extreme": range(2_501, BasePeak.EVEREST_HEIGHT + 1)}
-        return levels
+    def calculate_difficulty_level(self) -> str:
+        if 1_500 <= self.elevation <= 2_500:
+            return "Advanced"
+        elif self.elevation > 2_500:
+            return "Extreme"
 
