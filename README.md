@@ -15,6 +15,7 @@ The app’s main entry point is the **`SummitQuestManagerApp`** class.
 🔹 Polymorphism and Abstraction  
 🔹 Getter and Setter methods  
 🔹 Clean Code & Type Hinting  
+🔹 Unit Testing  
 🔹 String formatting  
 
 ---
@@ -36,6 +37,8 @@ It demonstrates classes, inheritance, encapsulation, and class-level data manage
 🔹 Getter and Setter methods  
 🔹 Clean Code & Type Hinting  
 🔹 String formatting  
+
+---
 
 ### 🐍 Requirements
 - Python 3.10+    
