@@ -2,7 +2,10 @@
 
 Climbers and Peaks Management System
 
-An Object-Oriented Programming (OOP) project built in Python that simulates climbers attempting to conquer various peaks based on their strength, preparedness, and available gear.   
+
+
+An Object-Oriented Programming (OOP) project built in Python that simulates climbers attempting to conquer various peaks based on their strength, preparedness, and available gear, allowing registration, gear checks, and tracking conquered summits.
+   
 The app’s main entry point is the **`SummitQuestManagerApp`** class.
 
 
