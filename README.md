@@ -1,3 +1,23 @@
+## 🏔️ Project name: climbers_and_peaks
+
+Climbers and Peaks Management System
+
+An Object-Oriented Programming (OOP) project built in Python that simulates climbers attempting to conquer various peaks based on their strength, preparedness, and available gear.   
+The app’s main entry point is the **`SummitQuestManagerApp`** class.
+
+
+### 🔎 Key Concepts Demonstrated
+
+🔹 Classes and objects (OOP)  
+🔹 Class vs. Instance Attributes   
+🔹 Inheritance  
+🔹 Encapsulation  
+🔹 Polymorphism and Abstraction  
+🔹 Getter and Setter methods  
+🔹 Clean Code & Type Hinting  
+🔹 String formatting  
+
+---
 
 ## 🐾 Project name: pet_adoption_center
 
