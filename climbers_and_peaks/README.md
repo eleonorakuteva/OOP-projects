@@ -20,27 +20,27 @@ The app’s main entry point is the **`SummitQuestManagerApp`** class.
 
 climbers_and_peaks/  
 │   
-└── project/  
-    │  
-    ├── climbers/  
-    │   ├── base_climber.py  
-    │   ├── arctic_climber.py  
-    │   └── summit_climber.py  
-    │  
-    ├── tests/  
-    │   └── test_summit_quest_manager_app.py  
-    │  
-    ├── peaks/  
-    │   ├── base_peak.py  
-    │   ├── arctic_peak.py  
-    │   └── summit_peak.py  
-    │  
-    ├── summit_quest_manager_app.py  
-    └── README.md  
+├──  project/  
+│```...```│  
+│```...```├── climbers/  
+│```...```│```...```├── base_climber.py  
+│```...```│```...```├── arctic_climber.py  
+│```...```│```...```└── summit_climber.py  
+│```...```│    
+│```...```├── peaks/  
+│```...```│```...```├── base_peak.py  
+│```...```│```...```├── arctic_peak.py  
+│```...```│```...```└── summit_peak.py  
+│```...```│  
+│```...```└── summit_quest_manager_app.py  
+│  
+├── tests/    
+│```...```└── test_summit_quest_manager_app.py  
+│  
+├── \__init\__.py   
+│     
+└── README.md  
 
-
-
- 
 
 
 ---
