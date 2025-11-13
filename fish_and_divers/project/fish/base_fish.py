@@ -32,4 +32,4 @@ class BaseFish(ABC):
     def fish_details(self) -> str:
         pass
 
-    
+
