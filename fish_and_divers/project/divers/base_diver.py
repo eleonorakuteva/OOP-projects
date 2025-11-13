@@ -61,16 +61,13 @@ class BaseDiver(ABC):
             self.oxygen_level = 0
 
 
-    def update_health_status(self) -> bool:
+    def update_health_status(self) -> None:
         """
         Changes the health status of the diver to True, if it is False or reciprocally.
         :return: bool
         """
-        return not self.has_health_issue
+        self.has_health_issue = not self.has_health_issue
 
-    def zero_oxygen_level_handling(self):
-        if self.oxygen_level <= 0:
-            self.has_health_issue = True
 
     def __str__(self) -> str:
         return (f"{type(self).__name__}: "
