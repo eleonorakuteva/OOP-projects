@@ -25,13 +25,11 @@ class NauticalCatchChallengeApp:
         except KeyError:
             return f"{diver_type} is not allowed in our competition."
 
-        try:
-            next(d for d in self.divers if d.name == diver_name)
+        if any(d.name == diver_name for d in self.divers):
             return f"{diver_name} is already a participant."
 
-        except StopIteration:
-            self.divers.append(new_diver)
-            return f"{diver_name} is successfully registered for the competition as a {diver_type}."
+        self.divers.append(new_diver)
+        return f"{diver_name} is successfully registered for the competition as a {diver_type}."
 
 
     def swim_into_competition(self, fish_type: str, fish_name: str, points: float):
@@ -41,78 +39,95 @@ class NauticalCatchChallengeApp:
         except KeyError:
             return f"{fish_type} is forbidden for chasing in our competition."
 
-        try:
-            next(f for f in self.fish_list if f.name == fish_name)
+        if any(f.name == fish_name for f in self.fish_list):
             return f"{fish_name} is already permitted."
 
-        except StopIteration:
-            self.fish_list.append(new_fish)
-            return f"{fish_name} is allowed for chasing as a {fish_type}."
+        self.fish_list.append(new_fish)
+        return f"{fish_name} is allowed for chasing as a {fish_type}."
 
 
     def chase_fish(self, diver_name: str, fish_name: str, is_lucky: bool):
         message = None
-        try:
-            curr_diver = next(d for d in self.divers if d.name == diver_name)
-        except StopIteration:
+
+        diver = self._get_diver(diver_name)
+        if not diver:
             return f"{diver_name} is not registered for the competition."
 
-        try:
-            curr_fish = next(f for f in self.fish_list if f.name == fish_name)
-        except StopIteration:
+        fish = self._get_fish(fish_name)
+        if not fish:
             return f"The {fish_name} is not allowed to be caught in this competition."
 
-        if curr_diver.has_health_issue:
+        if diver.has_health_issue:
             return f"{diver_name} will not be allowed to dive, due to health issues."
 
-        if curr_diver.oxygen_level < curr_fish.time_to_catch:
-            curr_diver.miss(curr_fish.time_to_catch)
+        if diver.oxygen_level < fish.time_to_catch:
+            diver.miss(fish.time_to_catch)
             message = f"{diver_name} missed a good {fish_name}."
 
-        elif curr_diver.oxygen_level == curr_fish.time_to_catch:
+        elif diver.oxygen_level == fish.time_to_catch:
             if is_lucky:
-                curr_diver.hit(curr_fish)
-                message = f"{diver_name} hits a {curr_fish.points}pt. {fish_name}."
+                diver.hit(fish)
+                message = f"{diver_name} hits a {fish.points:.1f}pt. {fish_name}."
             else:
-                curr_diver.miss(curr_fish.time_to_catch)
+                diver.miss(fish.time_to_catch)
                 message = f"{diver_name} missed a good {fish_name}."
 
-        elif curr_diver.oxygen_level > curr_fish.time_to_catch:
-            curr_diver.hit(curr_fish)
-            message = f"{diver_name} hits a {curr_fish.points}pt. {fish_name}."
+        elif diver.oxygen_level > fish.time_to_catch:
+            diver.hit(fish)
+            message = f"{diver_name} hits a {fish.points:.1f}pt. {fish_name}."
 
-        if curr_diver.oxygen_level == 0:
-            curr_diver.update_health_status()
+        if diver.oxygen_level == 0:
+            diver.update_health_status()
 
         return message
 
 
+
     def health_recovery(self):
-        divers_with_health_issues = [d for d in self.divers if d.has_health_issue == True]
+        divers_with_health_issues = [d for d in self.divers if d.has_health_issue]
         for diver in self.divers:
             if diver in divers_with_health_issues:
-                diver.has_health_issue = False
+                diver.update_health_status()
                 diver.renew_oxy()
         return f"Divers recovered: {len(divers_with_health_issues)}"
 
 
     def diver_catch_report(self, diver_name: str):
-        pass
-        # curr_diver = next((d for d in self.divers if d.name == diver_name), None)
-        # if curr_diver:
-        #     return (f"**{diver_name} Catch Report**\n"
-        #             f"{'\n'.join(f.fish_details() for f in curr_diver.catch)}")
+
+        diver = next((d for d in self.divers if d.name == diver_name), None)
+        fish_details = [fish.fish_details() for fish in diver.catch]
+
+        catch_report = '\n'.join(fish_details)
+        return f"**{diver_name} Catch Report**\n{catch_report}"
 
 
     def competition_statistics(self):
-        all_divers_in_good_health = [d for d in self.divers if not d.has_health_issue]
-        sorted_divers = sorted(all_divers_in_good_health, key= lambda d: (-d.competition_points, -len(d.catch), d.name))
-        result = ["**Nautical Catch Challenge Statistics**",]
-        for d in sorted_divers:
-            result.append(str(d))
-        return '\n'.join(result)
+        healthy_divers = [diver for diver in self.divers if not diver.has_health_issue]
+        sorted_divers = sorted(
+            healthy_divers,
+            key=lambda x: (-x.competition_points, -len(x.catch), x.name),
+        )
+
+        result = "**Nautical Catch Challenge Statistics**\n"
+        result += "\n".join(str(d) for d in sorted_divers)
+        return result
+
+    # Helper methods
+
+    def _get_diver(self, diver_name: str):
+        diver = next((d for d in self.divers if d.name == diver_name), None)
+        return diver
+
+    def _get_fish(self, fish_name: str):
+        fish = next((f for f in self.fish_list if f.name == fish_name), None)
+        return fish
 
 #
+
+# dict = {"aaa" : 1}
+#
+# print(dict["aa"])
+
 # nautical_catch_challenge = NauticalCatchChallengeApp()
 #
 # # Dive into competition
