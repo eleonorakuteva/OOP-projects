@@ -9,7 +9,7 @@ from project.fish.predatory_fish import PredatoryFish
 class NauticalCatchChallengeApp:
 
     VALID_DIVER_TYPES = {"FreeDiver" : FreeDiver,
-                         "ScubaDiver": ScubaDiver}
+                         "ScubaDiver": ScubaDiver,}
 
     VALID_FISH_TYPES = {"PredatoryFish" : PredatoryFish,
                         "DeepSeaFish" : DeepSeaFish,}
@@ -50,60 +50,41 @@ class NauticalCatchChallengeApp:
             return f"{fish_name} is allowed for chasing as a {fish_type}."
 
 
-    def diver_validation(self, diver_name: str):
+    def chase_fish(self, diver_name: str, fish_name: str, is_lucky: bool):
+        message = None
         try:
             curr_diver = next(d for d in self.divers if d.name == diver_name)
-            return curr_diver
         except StopIteration:
-            return None
-
-    def fish_validation(self, fish_name: str):
-        try:
-            curr_fish = next(f for f in self.fish_list if f.name == fish_name)
-            return curr_fish
-        except StopIteration:
-            return None
-
-    @staticmethod
-    def diver_health_check(diver: BaseDiver):
-        return True if diver.has_health_issue else False
-
-    @staticmethod
-    def oxygen_level_comparison(diver: BaseDiver, fish: BaseFish, is_lucky: bool):
-        if diver.oxygen_level < fish.time_to_catch:
-            return False
-
-        elif diver.oxygen_level == fish.time_to_catch:
-            if is_lucky:
-                return True
-            else:
-                return False
-
-        elif diver.oxygen_level > fish.time_to_catch:
-            return True
-
-
-    def chase_fish(self, diver_name: str, fish_name: str, is_lucky: bool):
-        curr_diver = self.diver_validation(diver_name)
-        if not curr_diver:
             return f"{diver_name} is not registered for the competition."
 
-        curr_fish = self.fish_validation(fish_name)
-        if not curr_fish:
+        try:
+            curr_fish = next(f for f in self.fish_list if f.name == fish_name)
+        except StopIteration:
             return f"The {fish_name} is not allowed to be caught in this competition."
 
-        # ???
-        if not self.diver_health_check(curr_diver):
+        if curr_diver.has_health_issue:
             return f"{diver_name} will not be allowed to dive, due to health issues."
 
-        # ???
-        if self.oxygen_level_comparison(curr_diver, curr_fish, is_lucky):
-            curr_diver.hit(curr_fish)
-            return f"{diver_name} hits a {curr_fish.points}pt. {fish_name}."
-        else:
+        if curr_diver.oxygen_level < curr_fish.time_to_catch:
             curr_diver.miss(curr_fish.time_to_catch)
-            return f"{diver_name} missed a good {fish_name}."
+            message = f"{diver_name} missed a good {fish_name}."
 
+        elif curr_diver.oxygen_level == curr_fish.time_to_catch:
+            if is_lucky:
+                curr_diver.hit(curr_fish)
+                message = f"{diver_name} hits a {curr_fish.points}pt. {fish_name}."
+            else:
+                curr_diver.miss(curr_fish.time_to_catch)
+                message = f"{diver_name} missed a good {fish_name}."
+
+        elif curr_diver.oxygen_level > curr_fish.time_to_catch:
+            curr_diver.hit(curr_fish)
+            message = f"{diver_name} hits a {curr_fish.points}pt. {fish_name}."
+
+        if curr_diver.oxygen_level == 0:
+            curr_diver.update_health_status()
+
+        return message
 
 
     def health_recovery(self):
@@ -111,20 +92,78 @@ class NauticalCatchChallengeApp:
         for diver in self.divers:
             if diver in divers_with_health_issues:
                 diver.has_health_issue = False
-                diver.oxygen_level = type(diver).__class__.INITIAL_OXYGEN_LEVEL
+                diver.renew_oxy()
+        return f"Divers recovered: {len(divers_with_health_issues)}"
+
 
     def diver_catch_report(self, diver_name: str):
         pass
-        # curr_diver = self.diver_validation(diver_name)
+        # curr_diver = next((d for d in self.divers if d.name == diver_name), None)
         # if curr_diver:
         #     return (f"**{diver_name} Catch Report**\n"
         #             f"{'\n'.join(f.fish_details() for f in curr_diver.catch)}")
 
 
     def competition_statistics(self):
-        all_divers_in_good_health = [d for d in self.divers if d.has_health_issue == False]
-        sorted_divers = sorted(all_divers_in_good_health, key= lambda d: (-d.competition_points, -len(d.catches), d.name))
+        all_divers_in_good_health = [d for d in self.divers if not d.has_health_issue]
+        sorted_divers = sorted(all_divers_in_good_health, key= lambda d: (-d.competition_points, -len(d.catch), d.name))
         result = ["**Nautical Catch Challenge Statistics**",]
         for d in sorted_divers:
             result.append(str(d))
         return '\n'.join(result)
+
+#
+# nautical_catch_challenge = NauticalCatchChallengeApp()
+#
+# # Dive into competition
+# print(nautical_catch_challenge.dive_into_competition("ScubaDiver", "MaxineHarper"))
+# print(nautical_catch_challenge.dive_into_competition("FreeDiver", "JamalCarter"))
+# print(nautical_catch_challenge.dive_into_competition("SkyDiver", "FionaBennett"))
+# print(nautical_catch_challenge.dive_into_competition("FreeDiver", "OscarWallace"))
+# print(nautical_catch_challenge.dive_into_competition("ScubaDiver", "LilaMoreno"))
+# print(nautical_catch_challenge.dive_into_competition("FreeDiver", "LilaMoreno"))
+#
+# # Swim into competition
+# print(nautical_catch_challenge.swim_into_competition("ReefFish", "AzureDamselfish", 8.7))
+# print(nautical_catch_challenge.swim_into_competition("DeepSeaFish", "BluestripeSnapper", 6.3))
+# print(nautical_catch_challenge.swim_into_competition("PredatoryFish", "YellowtailSurgeonfish", 5.0))
+# print(nautical_catch_challenge.swim_into_competition("PredatoryFish", "Barracuda", 9.2))
+# print(nautical_catch_challenge.swim_into_competition("PredatoryFish", "Coryphaena", 9.7))
+# print(nautical_catch_challenge.swim_into_competition("PredatoryFish", "Bluefish", 4.4))
+# print(nautical_catch_challenge.swim_into_competition("DeepSeaFish", "SwordFish", 10.0))
+# print(nautical_catch_challenge.swim_into_competition("DeepSeaFish", "Mahi-Mahi", 9.1))
+# print(nautical_catch_challenge.swim_into_competition("DeepSeaFish", "Tuna", 8.5))
+# print(nautical_catch_challenge.swim_into_competition("AquariumFish", "SilverArowana", 3.3))
+# print(nautical_catch_challenge.swim_into_competition("DeepSeaFish", "Barracuda", 8.6))
+#
+# # Conduct fishing competitions
+# print(nautical_catch_challenge.chase_fish("FionaBennett", "AzureDamselfish", False))
+# print(nautical_catch_challenge.chase_fish("JamalCarter", "SilverArowana", True))
+# print(nautical_catch_challenge.chase_fish("MaxineHarper", "YellowtailSurgeonfish", False))
+# print(nautical_catch_challenge.chase_fish("MaxineHarper", "Mahi-Mahi", False))
+# print(nautical_catch_challenge.chase_fish("MaxineHarper", "Tuna", False))
+# print(nautical_catch_challenge.chase_fish("MaxineHarper", "Coryphaena", True))
+# print(nautical_catch_challenge.chase_fish("MaxineHarper", "BluestripeSnapper", True))
+# print(nautical_catch_challenge.chase_fish("OscarWallace", "Barracuda", False))
+# print(nautical_catch_challenge.chase_fish("OscarWallace", "YellowtailSurgeonfish", False))
+# print(nautical_catch_challenge.chase_fish("OscarWallace", "Tuna", True))
+# print(nautical_catch_challenge.chase_fish("JamalCarter", "Barracuda", True))
+# print(nautical_catch_challenge.chase_fish("JamalCarter", "YellowtailSurgeonfish", True))
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "Tuna", False))
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "Mahi-Mahi", False))
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "SwordFish", True))
+#
+# # Check health recovery
+# print(nautical_catch_challenge.health_recovery())
+#
+# # Conduct fishing competitions
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "Tuna", False))
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "Mahi-Mahi", False))
+# print(nautical_catch_challenge.chase_fish("LilaMoreno", "SwordFish", True))
+#
+# # View catch reports
+# print(nautical_catch_challenge.diver_catch_report("LilaMoreno"))
+#
+# # View competition statistics
+# print(nautical_catch_challenge.competition_statistics())
+
