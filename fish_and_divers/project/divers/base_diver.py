@@ -38,6 +38,7 @@ class BaseDiver(ABC):
         When the method is invoked the diver's oxygen_level is decreased by a certain value,
         that will depend on the fish that is chased.
         :param time_to_catch: int
+        :return None
         """
         pass
 
