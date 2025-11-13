@@ -107,10 +107,24 @@ class NauticalCatchChallengeApp:
 
 
     def health_recovery(self):
-        pass
+        divers_with_health_issues = [d for d in self.divers if d.has_health_issue == True]
+        for diver in self.divers:
+            if diver in divers_with_health_issues:
+                diver.has_health_issue = False
+                diver.oxygen_level = type(diver).__class__.INITIAL_OXYGEN_LEVEL
 
     def diver_catch_report(self, diver_name: str):
         pass
+        # curr_diver = self.diver_validation(diver_name)
+        # if curr_diver:
+        #     return (f"**{diver_name} Catch Report**\n"
+        #             f"{'\n'.join(f.fish_details() for f in curr_diver.catch)}")
+
 
     def competition_statistics(self):
-        pass
+        all_divers_in_good_health = [d for d in self.divers if d.has_health_issue == False]
+        sorted_divers = sorted(all_divers_in_good_health, key= lambda d: (-d.competition_points, -len(d.catches), d.name))
+        result = ["**Nautical Catch Challenge Statistics**",]
+        for d in sorted_divers:
+            result.append(str(d))
+        return '\n'.join(result)
