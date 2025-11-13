@@ -8,7 +8,7 @@ class BaseDiver(ABC):
         self.name = name
         self.oxygen_level = oxygen_level
         self.catch: list[BaseFish] = []
-        self.competition_points: round(float, 1) = 0
+        self.competition_points: float = 0.0
         self.has_health_issue: bool = False
 
     @property
@@ -55,7 +55,7 @@ class BaseDiver(ABC):
 
         if self.oxygen_level >= fish.time_to_catch:
             self.oxygen_level -= fish.time_to_catch
-            self.competition_points += fish.points
+            self.competition_points += round(fish.points, 1)
             self.catch.append(fish)
         else:
             self.oxygen_level = 0
@@ -74,4 +74,4 @@ class BaseDiver(ABC):
                 f"[Name: {self.name}, "
                 f"Oxygen level left: {self.oxygen_level}, "
                 f"Fish caught: {len(self.catch)}, "
-                f"Points earned: {self.competition_points}]")
+                f"Points earned: {self.competition_points:.1f}]")
