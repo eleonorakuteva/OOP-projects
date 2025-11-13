@@ -68,6 +68,10 @@ class BaseDiver(ABC):
         """
         return not self.has_health_issue
 
+    def zero_oxygen_level_handling(self):
+        if self.oxygen_level <= 0:
+            self.has_health_issue = True
+
     def __str__(self) -> str:
         return (f"{type(self).__name__}: "
                 f"[Name: {self.name}, "
