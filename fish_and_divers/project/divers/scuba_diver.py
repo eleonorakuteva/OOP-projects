@@ -10,7 +10,7 @@ class ScubaDiver(BaseDiver):
         super().__init__(name, self.INITIAL_OXYGEN_LEVEL)
 
     def miss(self, time_to_catch: int) -> None:
-        decreased = int(round(time_to_catch * self.DECREASED_PERCENTAGE_PER_MISS))
+        decreased = round(time_to_catch * self.DECREASED_PERCENTAGE_PER_MISS)
         self.oxygen_level = max(0, (self.oxygen_level - decreased))
 
     def renew_oxy(self) -> None:
