@@ -25,9 +25,11 @@ class BaseFish(ABC):
 
     @points.setter
     def points(self, value: float):
-        if 1 > value > 10:
+        if 1 <= value <= 10:
+            self.__points = value
+        else:
             raise ValueError("Points should be a value ranging from 1 to 10!")
-        self.__points = value
+
 
     @abstractmethod
     def fish_details(self) -> str:
