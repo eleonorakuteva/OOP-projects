@@ -2,6 +2,7 @@ from project.fish.base_fish import BaseFish
 
 
 class DeepSeaFish(BaseFish):
+
     TIME_TO_CATCH = 180
 
     def __init__(self, name: str, points: float):
@@ -10,4 +11,4 @@ class DeepSeaFish(BaseFish):
     def fish_details(self) -> str:
         return (f"{type(self).__name__}: {self.name} "
                 f"[Points: {self.points}, "
-                f"Time to Catch: {self.TIME_TO_CATCH} seconds]")
+                f"Time to Catch: {self.time_to_catch} seconds]")
