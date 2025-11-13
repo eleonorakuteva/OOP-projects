@@ -10,4 +10,4 @@ class PredatoryFish(BaseFish):
     def fish_details(self) -> str:
         return (f"{type(self).__name__}: {self.name} "
                 f"[Points: {self.points}, "
-                f"Time to Catch: {self.time_to_catch} seconds]")
+                f"Time to Catch: {self.TIME_TO_CATCH} seconds]")
