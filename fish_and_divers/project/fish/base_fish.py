@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class BaseFish(ABC):
+
     def __init__(self, name: str, points: float, time_to_catch: int):
         self.name = name
         self.points = points
