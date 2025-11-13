@@ -27,7 +27,7 @@ class BaseDiver(ABC):
 
     @oxygen_level.setter
     def oxygen_level(self, value: float):
-        if value < 0:
+        if value < 0.0:
             raise ValueError("Cannot create diver with negative oxygen level!")
         self.__oxygen_level = value
 
