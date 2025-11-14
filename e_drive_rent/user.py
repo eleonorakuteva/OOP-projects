@@ -18,10 +18,6 @@ class User:
     def rating(self, value: float):
         if value < 0:
             raise ValueError("Users rating cannot be negative!")
-        # ?
-        elif value == 0:
-            self.is_blocked = True
-        # ?
         self.__rating = value
 
     @property
@@ -60,9 +56,13 @@ class User:
 
     def decrease_rating(self):
         decreased_rating = self.__rating - 2.0
-        self.__rating = max(0, decreased_rating)
+        if decreased_rating <= 0:
+            self.is_blocked = True
+        self.__rating = max(0.0, decreased_rating)
 
     def __str__(self):
         return (f"{self.first_name} {self.last_name} "
                 f"Driving license: {self.driving_license_number} "
                 f"Rating: {self.rating}")
+
+
