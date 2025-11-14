@@ -49,6 +49,9 @@ class BaseVehicle:
     def recharge(self):
         self.battery_level = 100
 
+    def change_status(self):
+        self.is_damaged = not self.is_damaged
+
     def __str__(self):
         return (f"{self.brand} {self.model} "
                 f"License plate: {self.license_plate_number} "
