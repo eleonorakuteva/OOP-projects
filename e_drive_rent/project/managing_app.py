@@ -51,14 +51,11 @@ class ManagingApp:
 
             elif have_route_with_same_start_and_end_point.length > length:
                 have_route_with_same_start_and_end_point.is_locked = True
-                
+
                 route_id = len(self.routes) + 1
                 shorter_route = Route(start_point, end_point, length, route_id)
                 self.routes.append(shorter_route)
                 return f"{start_point}/{end_point} - {length} km is unlocked and available to use."
-
-
-
 
         except StopIteration:
             route_id = len(self.routes) + 1
@@ -97,7 +94,23 @@ class ManagingApp:
 
 
     def repair_vehicles(self, count: int):
-        pass
+        repaired_count = 0
+        damaged_vehicles = [v for v in self.vehicles if v.is_damaged]
+        if len(damaged_vehicles) <= count:
+            for v in damaged_vehicles:
+                repaired_count += 1
+                v.is_damaged = False
+                v.recharge()
+
+        else:
+            sorted_damaged_vehicles = sorted(damaged_vehicles, key=lambda v: (v.brand, v.model))
+            for vehicle in sorted_damaged_vehicles[:count]:
+                repaired_count += 1
+                vehicle.is_damaged = False
+                vehicle.recharge()
+
+        return f"{repaired_count} vehicles were successfully repaired!"
+
 
     def users_report(self):
         pass
