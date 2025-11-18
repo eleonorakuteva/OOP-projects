@@ -113,7 +113,11 @@ class ManagingApp:
 
 
     def users_report(self):
-        pass
+        result = ["*** E-Drive-Rent ***"]
+        sorted_users = sorted(self.users, key=lambda u: -u.rating)
+        for u in sorted_users:
+            result.append(str(u))
+        return '\n'.join(result)
 
 app = ManagingApp()
 print(app.register_user( 'Tisha', 'Reenie', '7246506' ))
