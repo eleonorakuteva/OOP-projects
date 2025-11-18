@@ -41,7 +41,26 @@ class ManagingApp:
             return f"{brand} {model} was successfully uploaded with LPN-{license_plate_number}."
 
     def allow_route(self, start_point: str, end_point: str, length: float):
-        pass
+        try:
+            have_route_with_same_start_and_end_point = next(r for r in self.routes if r.start_point == start_point and r.end_point == end_point)
+            if have_route_with_same_start_and_end_point.length == length:
+                return f"{start_point}/{end_point} - {length} km had already been added to our platform."
+
+            elif have_route_with_same_start_and_end_point.length < length:
+                return f"{start_point}/{end_point} shorter route had already been added to our platform."
+
+            else:
+                have_route_with_same_start_and_end_point.length = length
+
+
+        except StopIteration:
+            route_id = len(self.routes) + 1
+            new_route = Route(start_point, end_point, length, route_id)
+            self.routes.append(new_route)
+            return f"{start_point}/{end_point} - {length} km is unlocked and available to use."
+
+
+
 
     def make_trip(self, driving_license_number: str, license_plate_number: str, route_id: int,  is_accident_happened: bool):
         pass
