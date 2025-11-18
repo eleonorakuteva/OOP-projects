@@ -49,8 +49,15 @@ class ManagingApp:
             elif have_route_with_same_start_and_end_point.length < length:
                 return f"{start_point}/{end_point} shorter route had already been added to our platform."
 
-            else:
-                have_route_with_same_start_and_end_point.length = length
+            elif have_route_with_same_start_and_end_point.length > length:
+                have_route_with_same_start_and_end_point.is_locked = True
+                
+                route_id = len(self.routes) + 1
+                shorter_route = Route(start_point, end_point, length, route_id)
+                self.routes.append(shorter_route)
+                return f"{start_point}/{end_point} - {length} km is unlocked and available to use."
+
+
 
 
         except StopIteration:
@@ -63,7 +70,31 @@ class ManagingApp:
 
 
     def make_trip(self, driving_license_number: str, license_plate_number: str, route_id: int,  is_accident_happened: bool):
-        pass
+        user = next((u for u in self.users if u.driving_license_number == driving_license_number), None)
+        vehicle = next((v for v in self.vehicles if v.license_plate_number == license_plate_number), None)
+        route = next((r for r in self.routes if r.route_id == route_id), None)
+
+        if user and vehicle and route:
+
+            if user.is_blocked:
+                return f"User {driving_license_number} is blocked in the platform! This trip is not allowed."
+
+            if vehicle.is_damaged:
+                return f"Vehicle {license_plate_number} is damaged! This trip is not allowed."
+
+            if route.is_locked:
+                return f"Route {route_id} is locked! This trip is not allowed."
+
+            vehicle.drive(route.length)
+
+            if is_accident_happened:
+                vehicle.change_status()
+                user.decrease_rating()
+            else:
+                user.increase_rating()
+
+            return str(vehicle)
+
 
     def repair_vehicles(self, count: int):
         pass
