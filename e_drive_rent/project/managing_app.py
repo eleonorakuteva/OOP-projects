@@ -9,7 +9,7 @@ class ManagingApp:
 
     VALID_VEHICLES_TYPE: dict = {
         "PassengerCar": PassengerCar,
-        "CargoVan": CargoVan
+        "CargoVan": CargoVan,
     }
 
     def __init__(self):
@@ -87,7 +87,7 @@ class ManagingApp:
             if is_accident_happened:
                 vehicle.change_status()
                 user.decrease_rating()
-            else:
+            elif not is_accident_happened:
                 user.increase_rating()
 
             return str(vehicle)
@@ -95,18 +95,19 @@ class ManagingApp:
 
     def repair_vehicles(self, count: int):
         repaired_count = 0
+
         damaged_vehicles = [v for v in self.vehicles if v.is_damaged]
         if len(damaged_vehicles) <= count:
             for v in damaged_vehicles:
                 repaired_count += 1
-                v.is_damaged = False
+                v.change_status()
                 v.recharge()
 
         else:
             sorted_damaged_vehicles = sorted(damaged_vehicles, key=lambda v: (v.brand, v.model))
             for vehicle in sorted_damaged_vehicles[:count]:
                 repaired_count += 1
-                vehicle.is_damaged = False
+                vehicle.change_status()
                 vehicle.recharge()
 
         return f"{repaired_count} vehicles were successfully repaired!"
@@ -118,6 +119,9 @@ class ManagingApp:
         for u in sorted_users:
             result.append(str(u))
         return '\n'.join(result)
+
+
+# for testing:
 
 app = ManagingApp()
 print(app.register_user( 'Tisha', 'Reenie', '7246506' ))
