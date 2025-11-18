@@ -1,9 +1,17 @@
 from project.user import User
 from project.route import Route
 from project.vehicles.base_vehicle import BaseVehicle
+from project.vehicles.cargo_van import CargoVan
+from project.vehicles.passenger_car import PassengerCar
 
 
 class ManagingApp:
+
+    VALID_VEHICLES_TYPE: dict = {
+        "PassengerCar": PassengerCar,
+        "CargoVan": CargoVan
+    }
+
     def __init__(self):
         self.users: list[User] = []
         self.vehicles: list[BaseVehicle] = []
@@ -20,7 +28,17 @@ class ManagingApp:
 
 
     def upload_vehicle(self, vehicle_type: str, brand: str, model: str, license_plate_number: str):
-        pass
+        try:
+            new_vehicle = self.VALID_VEHICLES_TYPE[vehicle_type](brand, model, license_plate_number)
+        except KeyError:
+            return f"Vehicle type {vehicle_type} is inaccessible."
+
+        try:
+            have_vehicle = next(v for v in self.vehicles if v.license_plate_number == license_plate_number)
+            return f"{license_plate_number} belongs to another vehicle."
+        except StopIteration:
+            self.vehicles.append(new_vehicle)
+            return f"{brand} {model} was successfully uploaded with LPN-{license_plate_number}."
 
     def allow_route(self, start_point: str, end_point: str, length: float):
         pass
