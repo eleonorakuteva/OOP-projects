@@ -9,10 +9,6 @@ class MainService(BaseService):
         super().__init__(name, MainService.CAPACITY)
 
     def details(self) -> str:
-        result = [f"{self.name} Main Service:"]
-        if self.robots:
-            all_robots = [robot.name for robot in self.robots]
-            result.append(f"Robots: {' '. join(all_robots)}")
-        else:
-            result.append("Robots: none")
-        return '\n'.join(result)
+        robots = " ".join([r.name for r in self.robots]) if self.robots else "none"
+        return f"{self.name} Main Service:\nRobots: {robots}"
+
