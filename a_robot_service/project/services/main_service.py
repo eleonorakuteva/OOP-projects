@@ -8,5 +8,6 @@ class MainService(BaseService):
     def __init__(self, name):
         super().__init__(name, MainService.CAPACITY)
 
+    @property
     def service_type(self) -> str:
         return "Main"
