@@ -27,7 +27,11 @@ class RobotsManagingApp:
         pass
 
     def __str__(self):
-        pass
+        result = []
+        for service in self.services:
+            result.append(str(service))
+
+        return '\n'.join(result)
 
 
 
