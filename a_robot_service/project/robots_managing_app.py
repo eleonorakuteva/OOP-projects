@@ -85,10 +85,7 @@ class RobotsManagingApp:
 
 
     def __str__(self):
-        result = []
-        for service in self.services:
-            result.append(service.details())
-
+        result = [service.details() for service in self.services]
         return '\n'.join(result)
 
     @staticmethod
