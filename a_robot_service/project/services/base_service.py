@@ -28,6 +28,13 @@ class BaseService(ABC):
             raise ValueError("Service capacity cannot be less than or equal to 0!")
         self.__capacity = value
 
+
+    @property
     @abstractmethod
-    def details(self):
+    def service_type(self):
         pass
+
+
+    def details(self) -> str:
+        robots = " ".join([r.name for r in self.robots]) if self.robots else "none"
+        return f"{self.name} {self.service_type} Service:\nRobots: {robots}"
