@@ -1,5 +1,3 @@
-from itertools import count
-
 from project.robots.base_robot import BaseRobot
 from project.services.base_service import BaseService
 from project.services.secondary_service import SecondaryService
@@ -54,20 +52,16 @@ class RobotsManagingApp:
         return f"Successfully added {robot_name} to {service_name}."
 
 
-
     def remove_robot_from_service(self, robot_name: str, service_name: str):
         service: BaseService = self.find_object_by_name(service_name, self.services)
         robot: BaseRobot = self.find_object_by_name(robot_name, service.robots)
 
-        if not robot:
+        if robot is None:
             raise Exception("No such robot in this service!")
 
         service.robots.remove(robot)
         self.robots.append(robot)
         return f"Successfully removed {robot_name} from {service_name}."
-
-
-
 
 
     def feed_all_robots_from_service(self, service_name: str):
@@ -80,11 +74,13 @@ class RobotsManagingApp:
 
         return f"Robots fed: {count_robots_in_service}."
 
+
     def service_price(self, service_name: str):
         service: BaseService = self.find_object_by_name(service_name, self.services)
 
         total_price = sum(robot.price for robot in service.robots)
         return f"The value of service {service_name} is {total_price:.2f}."
+
 
     def __str__(self):
         result = []
@@ -98,6 +94,7 @@ class RobotsManagingApp:
         object_ = next((o for o in collection if o.name == name), None)
         return object_
 
+
     @staticmethod
     def check_suitable_services(robot_object, service_object):
         if isinstance(robot_object, FemaleRobot) and isinstance(service_object, SecondaryService):
@@ -105,6 +102,7 @@ class RobotsManagingApp:
         elif isinstance(robot_object, MaleRobot) and isinstance(service_object, MainService):
             return True
         return False
+
 
     @staticmethod
     def server_has_capacity(service_object: BaseService):
