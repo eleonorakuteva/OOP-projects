@@ -8,7 +8,5 @@ class MainService(BaseService):
     def __init__(self, name):
         super().__init__(name, MainService.CAPACITY)
 
-    def details(self) -> str:
-        robots = " ".join([r.name for r in self.robots]) if self.robots else "none"
-        return f"{self.name} Main Service:\nRobots: {robots}"
-
+    def service_type(self) -> str:
+        return "Main"
