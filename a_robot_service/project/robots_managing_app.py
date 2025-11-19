@@ -24,18 +24,20 @@ class RobotsManagingApp:
     def add_service(self, service_type: str, name: str) -> str:
         try:
             new_service = self.VALID_SERVICES[service_type](name)
-            self.services.append(new_service)
-            return f"{service_type} is successfully added."
+            if new_service not in self.services:
+                self.services.append(new_service)
+                return f"{service_type} is successfully added."
         except KeyError:
-            return "Invalid service type!"
+            raise Exception("Invalid service type!")
 
     def add_robot(self, robot_type: str, name: str, kind: str, price: float) -> str:
         try:
             new_robot = self.VALID_ROBOTS[robot_type](name, kind, price)
-            self.robots.append(new_robot)
-            return f"{robot_type} is successfully added."
+            if new_robot not in self.robots:
+                self.robots.append(new_robot)
+                return f"{robot_type} is successfully added."
         except KeyError:
-            return "Invalid robot type!"
+            raise Exception("Invalid robot type!")
 
     def add_robot_to_service(self, robot_name: str, service_name: str):
         robot = self.find_object_by_name(robot_name, self.robots)
