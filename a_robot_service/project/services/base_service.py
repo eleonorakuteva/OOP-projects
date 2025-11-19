@@ -31,7 +31,7 @@ class BaseService(ABC):
 
     @property
     @abstractmethod
-    def service_type(self):
+    def service_type(self) -> str:
         pass
 
 
