@@ -37,7 +37,24 @@ class FactoryManager:
 
 
     def sell_products_to_store(self, store: BaseStore, *products: BaseProduct):
-        pass
+        if len(products) + len(store.products) > store.capacity:
+            return f"Store {store.name} has no capacity for this purchase."
+
+        products_that_match = [p for p in products if p.sub_type == store.permitted_sub_type]
+
+        if len(products_that_match) > 0:
+
+            # add matching pr to the store
+            store.products.extend(products_that_match)
+            # removing matching from factory
+            self.products = list(filter(lambda p: p not in products_that_match, self.products))
+            # add income to the factory
+            self.income += sum(p.price for p in products_that_match)
+            return f"Store {store.name} successfully purchased {len(products_that_match)} items."
+
+        elif not products_that_match:
+            return "Products do not match in type. Nothing sold."
+
 
     def unregister_store(self, store_name: str):
         pass
@@ -52,6 +69,11 @@ class FactoryManager:
 
     def statistics(self):
         pass
+
+    # @staticmethod
+    # def check_store_type(store: BaseStore):
+    #     if store.store_type ==
+
 
 
 
