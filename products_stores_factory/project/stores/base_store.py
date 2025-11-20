@@ -55,6 +55,11 @@ class BaseStore(ABC):
     def store_type(self):
         pass
 
+    @property
+    @abstractmethod
+    def permitted_sub_type(self):
+        pass
+
 
     @abstractmethod
     def store_stats(self):
