@@ -100,11 +100,13 @@ class FactoryManager:
                 products_dict[p.model] = 0
             products_dict[p.model] += 1
 
-        result.extend([f"{pr}: {count_pr}" for pr, count_pr in products_dict.items()])
+
+        result.extend([f"{pr}: {count_pr}" for pr, count_pr in sorted(products_dict.items())])
 
         result.append(f"***Partner Stores: {len(self.stores)}***")
 
-        result.extend([f"{s.name}" for s in self.stores])
+        sorted_stores = sorted(self.stores, key=lambda s: s.name)
+        result.extend([f"{s.name}" for s in sorted_stores])
 
         return '\n'.join(result)
 
