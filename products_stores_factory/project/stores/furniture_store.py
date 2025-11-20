@@ -1,5 +1,3 @@
-from project.products.chair import Chair
-from project.products.hobby_horse import HobbyHorse
 from project.stores.base_store import BaseStore
 
 
@@ -41,22 +39,3 @@ class FurnitureStore(BaseStore):
 
         return '\n'.join(result)
 
-# p1 = Chair("model1", 10)
-# p2 = Chair("a_model1", 10)
-# p3 = Chair("b_model1", 10)
-# p4 = Chair("model1", 10)
-# p5 = HobbyHorse("horse1", 20)
-# p6 = HobbyHorse("horse1", 20)
-# p7 = HobbyHorse("horse1", 20)
-# p8 = HobbyHorse("aaahorse1", 20)
-# furn = FurnitureStore("store", "as3")
-# furn.products.append(p1)
-# furn.products.append(p2)
-# furn.products.append(p3)
-# furn.products.append(p4)
-# furn.products.append(p5)
-# furn.products.append(p6)
-# furn.products.append(p7)
-# furn.products.append(p8)
-#
-# print(furn.store_stats())
