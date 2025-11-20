@@ -57,18 +57,50 @@ class FactoryManager:
 
 
     def unregister_store(self, store_name: str):
-        pass
+        try:
+            store = next(s for s in self.stores if s.name == store_name)
+            if len(store.products) >= 1:
+                return "The store is still having products in stock! Unregistering is inadvisable."
+            else:
+                self.stores.remove(store)
+                return f"Successfully unregistered store {store.name}, location: {store.location}."
+        except StopIteration:
+            raise Exception("No such store!")
 
 
     def discount_products(self, product_model: str):
-        pass
+        products_to_discount = [p.discount() for p in self.products if p.model == product_model]
+        return f"Discount applied to {len(products_to_discount)} products with model: {product_model}"
 
 
     def request_store_stats(self, store_name: str):
-        pass
+
+        store = next((s for s in self.stores if s.name == store_name), None)
+
+        if store is None:
+            return "There is no store registered under this name!"
+
+        return store.store_stats()
+
 
     def statistics(self):
-        pass
+        result = [f"Factory: {self.name}",
+                  f"Income: {self.income:.2f}",
+                  "***Products Statistics***",
+                  f"Unsold Products: {len(self.products)}. Total net price: {sum(p.price for p in self.products):.2f}"]
+        products_dict = {}
+        for p in self.products:
+            if p.model not in products_dict:
+                products_dict[p.model] = 0
+            products_dict[p.model] += 1
+
+        result.extend([f"{pr}: {count_pr}" for pr, count_pr in products_dict.items()])
+
+        result.append(f"***Partner Stores: {len(self.stores)}***")
+
+        result.extend([f"{s.name}" for s in self.stores])
+
+        return '\n'.join(result)
 
     # @staticmethod
     # def check_store_type(store: BaseStore):
