@@ -1,5 +1,3 @@
-from itertools import product
-
 from project.stores.base_store import BaseStore
 
 
