@@ -12,6 +12,10 @@ class ToyStore(BaseStore):
     def store_type(self):
         return f"{self.__class__.__name__}"
 
+    @property
+    def permitted_sub_type(self):
+        return "Toys"
+
     def store_stats(self):
         available_capacity = self.INITIAL_CAPACITY - len(self.products)
         result = [f"Store: {self.name}, location: {self.location}, available capacity: {available_capacity}",
