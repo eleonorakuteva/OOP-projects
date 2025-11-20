@@ -10,11 +10,13 @@ print(factory_manager.produce_item("Chair", "Modern", 100.0))
 print(factory_manager.produce_item("Chair", "Modern", 200.0))
 print(factory_manager.produce_item("HobbyHorse", "Rocking Horse", 120.0))
 print(factory_manager.produce_item("HobbyHorse", "Rocking Horse", 100.0))
+print(factory_manager.produce_item("HobbyHorse", "Alabama", 100.0))
 print()
 
 # Register new stores
 print(factory_manager.register_new_store("FurnitureStore", "Furniture Outlet", "SOF"))
 print(factory_manager.register_new_store("ToyStore", "Toy World", "VAR"))
+print(factory_manager.register_new_store("ToyStore", "Alaska", "VAR"))
 print()
 
 # Sell products to stores
@@ -25,7 +27,6 @@ store1 = factory_manager.stores[0]
 store2 = factory_manager.stores[1]
 print(factory_manager.sell_products_to_store(store2, chair1, chair2))
 print(factory_manager.sell_products_to_store(store1, chair1, chair2, chair3))
-print()
 
 # Unregister store
 print(factory_manager.unregister_store("Furniture Outlet"))
@@ -35,6 +36,7 @@ print()
 print(factory_manager.discount_products("Classic"))
 print(factory_manager.discount_products("Rocking Horse"))
 print()
+
 
 # Request store statistics
 print(factory_manager.request_store_stats("Furniture Outlet"))
