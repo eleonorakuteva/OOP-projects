@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from project.products.base_product import BaseProduct
 
 
