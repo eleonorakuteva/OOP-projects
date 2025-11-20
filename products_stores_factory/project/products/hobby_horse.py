@@ -1,7 +1,7 @@
 from project.products.base_product import BaseProduct
 
 
-class Chair(BaseProduct):
+class HobbyHorse(BaseProduct):
 
     MATERIAL = 'Wood/Plastic'
     SUB_TYPE = 'Toys'
