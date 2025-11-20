@@ -37,19 +37,25 @@ class FactoryManager:
 
 
     def sell_products_to_store(self, store: BaseStore, *products: BaseProduct):
-        if len(products) + len(store.products) > store.capacity:
+        if len(products) > store.capacity:
             return f"Store {store.name} has no capacity for this purchase."
 
         products_that_match = [p for p in products if p.sub_type == store.permitted_sub_type]
 
-        if len(products_that_match) > 0:
+        if len(products_that_match) >= 1:
 
-            # add matching pr to the store
+            # add matching products to the store
             store.products.extend(products_that_match)
+
+            # decrease the store's available capacity with the number of purchased products.
+            store.capacity -= len(products_that_match)
+
             # removing matching from factory
             self.products = list(filter(lambda p: p not in products_that_match, self.products))
+
             # add income to the factory
             self.income += sum(p.price for p in products_that_match)
+
             return f"Store {store.name} successfully purchased {len(products_that_match)} items."
 
         elif not products_that_match:
