@@ -22,4 +22,8 @@ class RoyalZone(BaseZone):
 
         return "\n".join(result)
 
+    @property
+    def type(self):
+        return "royal"
+
 
