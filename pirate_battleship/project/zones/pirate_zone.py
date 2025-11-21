@@ -21,3 +21,7 @@ class PirateZone(BaseZone):
 
         return "\n".join(result)
 
+    @property
+    def type(self):
+        return "pirate"
+
