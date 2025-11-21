@@ -30,7 +30,7 @@ class BaseBattleship(ABC):
         if value < 0:
             self.__health = 0
 
-    def take_damage(self, enemy_battleship: BaseBattleship):
+    def take_damage(self, enemy_battleship): #: BaseBattleship):
         self.health -= enemy_battleship.hit_strength
 
     @abstractmethod
