@@ -14,10 +14,11 @@ class PirateZone(BaseZone):
         royalships_count = sum(s for s in self.ships if type(self).__name__ == "RoyalBattleship")
 
         result.append(
-            f"Battleships currently in the Pirate Zone: {len(self.ships)}, {royalships_count} out of them are Pirate Battleships.")
+            f"Battleships currently in the Pirate Zone: {len(self.ships)}, {royalships_count} out of them are Royal Battleships.")
 
         if self.ships:
-            result.append(f"#{', '.join(self.get_ships())}#")
+            list_with_sorted_ships = self.get_ships()
+            result.append(f"#{', '.join(s.name for s in list_with_sorted_ships)}#")
 
         return "\n".join(result)
 
