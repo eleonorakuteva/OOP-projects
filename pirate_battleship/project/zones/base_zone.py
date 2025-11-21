@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from project.battleships.base_battleship import BaseBattleship
 
 
