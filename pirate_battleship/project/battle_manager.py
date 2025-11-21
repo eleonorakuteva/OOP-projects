@@ -36,8 +36,8 @@ class BattleManager:
         except KeyError:
             raise Exception(f"{ship_type} is an invalid type of ship!")
 
-
-    def add_ship_to_zone(self, zone: BaseZone, ship: BaseBattleship):
+    @staticmethod
+    def add_ship_to_zone(zone: BaseZone, ship: BaseBattleship):
         if zone.volume <= 0:
             return f"Zone {zone.code} does not allow more participants!"
 
@@ -56,8 +56,6 @@ class BattleManager:
             ship.is_attacking = True
 
         zone.ships.append(ship)
-        # ???
-        # self.ships.remove(ship)
         ship.is_available = False
         zone.volume -= 1
 
@@ -111,7 +109,7 @@ class BattleManager:
                 self.ships.remove(target)
                 return f"{target.name} lost the battle and was sunk."
 
-            if attacker.ammunition <= 0:
+            if attacker.ammunition == 0:
                 zone.ships.remove(attacker)
                 self.ships.remove(attacker)
                 return f"{attacker.name} ran out of ammunition and leaves."
@@ -119,12 +117,13 @@ class BattleManager:
             return "Both ships survived the battle."
 
 
-
-
     def get_statistics(self):
-        result = [f"Available Battleships: {len(self.ships)}"]
+        available_manager_ships = [s for s in self.ships if s.is_available]
 
-        available_ship_names = [s.name for s in self.ships]
+        result = [f"Available Battleships: {len(available_manager_ships)}"]
+
+        available_ship_names = [s.name for s in available_manager_ships]
+
         if available_ship_names:
             result.append(f"#{', '.join(available_ship_names)}#")
 
@@ -133,10 +132,8 @@ class BattleManager:
 
         sorted_zones_code_asc: list = sorted(self.zones, key=lambda z: z.code)
 
-
         for zone in sorted_zones_code_asc:
             string = zone.zone_info()
-            # print(string)
             result.append(string)
 
         return '\n'.join(result)
