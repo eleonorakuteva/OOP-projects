@@ -13,3 +13,7 @@ class PirateBattleship(BaseBattleship):
     def attack(self):
         ammunition_after_attack = self.ammunition - self.AMMUNITION_PER_ATTACK
         self.ammunition = max(0, ammunition_after_attack)
+
+    @property
+    def type(self):
+        return "pirate"
