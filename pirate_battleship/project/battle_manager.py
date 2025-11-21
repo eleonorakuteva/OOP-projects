@@ -38,7 +38,17 @@ class BattleManager:
 
 
     def add_ship_to_zone(self, zone: BaseZone, ship: BaseBattleship):
-        pass
+        if zone.volume < 1:
+            return f"Zone {zone.code} does not allow more participants!"
+
+        if ship.health > 0:
+            return f"Ship {ship.name} is considered sunk! Participation not allowed!"
+
+        if not ship.is_available:
+            return f"Ship {ship.name} is not available and could not participate!"
+
+        #ship can participate:
+
 
     def remove_battleship(self, ship_name: str):
         pass
