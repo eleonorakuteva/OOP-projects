@@ -41,7 +41,7 @@ class BattleManager:
         if zone.volume < 1:
             return f"Zone {zone.code} does not allow more participants!"
 
-        if ship.health > 0:
+        if ship.health == 0:
             return f"Ship {ship.name} is considered sunk! Participation not allowed!"
 
         if not ship.is_available:
@@ -74,7 +74,35 @@ class BattleManager:
         return f"Successfully removed ship {ship_name}."
 
     def start_battle(self, zone: BaseZone):
-        pass
+
+        if not zone:
+            pass
+
+        attacker_ships = [ship for ship in zone.ships if ship.is_attacking]
+        target_ships = [ship for ship in zone.ships if not ship.is_attacking]
+
+        if not attacker_ships or not target_ships:
+            return f"Not enough participants. The battle is canceled."
+
+        if attacker_ships and target_ships:
+            max_hit_strength, attacker = max((s.hit_strength, s) for s in attacker_ships)
+            max_health, target = max((s.health, s) for s in target_ships)
+            attacker.attack()
+            target.take_damage(attacker)
+
+            if target.health == 0:
+                zone.ships.remove(target)
+                self.ships.remove(target)
+                return f"{target.name} lost the battle and was sunk."
+
+            if attacker.ammunition <= 0:
+                zone.ships.remove(attacker)
+                self.ships.remove(attacker)
+                return f"{attacker.name} ran out of ammunition and leaves."
+
+            return "Both ships survived the battle."
+
+
 
 
     def get_statistics(self):
