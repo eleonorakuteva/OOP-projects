@@ -48,13 +48,34 @@ class BattleManager:
             return f"Ship {ship.name} is not available and could not participate!"
 
         #ship can participate:
+        if zone.type != ship.type:
+            ship.is_attacking = False
+
+        elif zone.type == ship.type:
+            ship.is_attacking = True
+
+        zone.ships.append(ship)
+        ship.is_available = False
+        zone.volume -= 1
+
+        return f"Ship {ship.name} successfully participated in zone {zone.code}."
 
 
     def remove_battleship(self, ship_name: str):
-        pass
+        ship = next((s for s in self.ships if s.name == ship_name), None)
+        if ship is None:
+            return "No ship with this name!"
+
+        # check if the ship participates in a zone
+        if not ship.is_available:
+            return "The ship participates in zone battles! Removal is impossible!"
+
+        self.ships.remove(ship)
+        return f"Successfully removed ship {ship_name}."
 
     def start_battle(self, zone: BaseZone):
         pass
+
 
     def get_statistics(self):
         result = [f"Available Battleships: {len(self.ships)}"]
