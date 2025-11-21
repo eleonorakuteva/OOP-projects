@@ -38,13 +38,14 @@ class BattleManager:
 
 
     def add_ship_to_zone(self, zone: BaseZone, ship: BaseBattleship):
-        if zone.volume < 1:
+        if zone.volume <= 0:
             return f"Zone {zone.code} does not allow more participants!"
 
         if ship.health == 0:
             return f"Ship {ship.name} is considered sunk! Participation not allowed!"
 
         if not ship.is_available:
+            # if ship in battle zone is_available = False
             return f"Ship {ship.name} is not available and could not participate!"
 
         #ship can participate:
@@ -55,6 +56,8 @@ class BattleManager:
             ship.is_attacking = True
 
         zone.ships.append(ship)
+        # ???
+        # self.ships.remove(ship)
         ship.is_available = False
         zone.volume -= 1
 
@@ -78,15 +81,28 @@ class BattleManager:
         if not zone:
             pass
 
-        attacker_ships = [ship for ship in zone.ships if ship.is_attacking]
-        target_ships = [ship for ship in zone.ships if not ship.is_attacking]
+        attacker_ships:list = [ship for ship in zone.ships if ship.is_attacking]
+        target_ships: list = [ship for ship in zone.ships if not ship.is_attacking]
 
         if not attacker_ships or not target_ships:
             return f"Not enough participants. The battle is canceled."
 
         if attacker_ships and target_ships:
-            max_hit_strength, attacker = max((s.hit_strength, s) for s in attacker_ships)
-            max_health, target = max((s.health, s) for s in target_ships)
+
+            max_hit_strength = 0
+            attacker = None
+            for ship in attacker_ships:
+                if ship.hit_strength > max_hit_strength:
+                    max_hit_strength = ship.hit_strength
+                    attacker = ship
+
+            max_health = 0
+            target = None
+            for ship in target_ships:
+                if ship.health > max_health:
+                    max_health = ship.health
+                    target = ship
+
             attacker.attack()
             target.take_damage(attacker)
 
@@ -120,7 +136,7 @@ class BattleManager:
 
         for zone in sorted_zones_code_asc:
             string = zone.zone_info()
-            print(string)
+            # print(string)
             result.append(string)
 
         return '\n'.join(result)
