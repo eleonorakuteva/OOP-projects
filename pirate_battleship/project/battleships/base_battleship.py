@@ -9,6 +9,7 @@ class BaseBattleship(ABC):
         self.hit_strength = hit_strength
         self.ammunition = ammunition
         self.is_attacking: bool = False
+        # not participating in a battle
         self.is_available: bool = True
 
     @property
@@ -27,9 +28,7 @@ class BaseBattleship(ABC):
 
     @health.setter
     def health(self, value:int):
-        if value < 0:
-            self.__health = 0
-        self.__health = value
+        self.__health = max(0, value)
 
     def take_damage(self, enemy_battleship): #: BaseBattleship):
         self.health -= enemy_battleship.hit_strength
