@@ -11,7 +11,7 @@ class PirateZone(BaseZone):
         result = ["@Pirate Zone Statistics@",
                   f"Code: {self.code}; Volume: {self.volume}"]
 
-        royalships_count = sum(s for s in self.ships if type(self).__name__ == "RoyalBattleship")
+        royalships_count = len([s for s in self.ships if s.type == "royal"])
 
         result.append(
             f"Battleships currently in the Pirate Zone: {len(self.ships)}, {royalships_count} out of them are Royal Battleships.")
