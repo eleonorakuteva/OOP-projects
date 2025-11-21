@@ -37,3 +37,8 @@ class BaseBattleship(ABC):
     def attack(self):
         pass
 
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
