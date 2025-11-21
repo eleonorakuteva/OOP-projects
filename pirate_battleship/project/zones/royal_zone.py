@@ -19,4 +19,6 @@ class RoyalZone(BaseZone):
         if self.ships:
             result.append(f"#{', '.join(self.get_ships())}#")
 
+        return "\n".join(result)
+
 
