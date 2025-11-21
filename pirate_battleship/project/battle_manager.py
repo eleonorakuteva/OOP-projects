@@ -54,11 +54,15 @@ class BattleManager:
             result.append(f"#{', '.join(available_ship_names)}#")
 
         result.append("***Zones Statistics:***")
-        result.append(f"Total Zones: {self.zones}")
+        result.append(f"Total Zones: {len(self.zones)}")
 
-        sorted_zones_code_asc = sorted(self.zones, key=lambda z: z.code)
+        sorted_zones_code_asc: list = sorted(self.zones, key=lambda z: z.code)
+
 
         for zone in sorted_zones_code_asc:
-            result.append(zone.zone_info())
+            string = zone.zone_info()
+            print(string)
+            result.append(string)
 
+        return '\n'.join(result)
 
