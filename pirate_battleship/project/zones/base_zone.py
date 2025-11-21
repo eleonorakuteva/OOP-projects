@@ -28,3 +28,8 @@ class BaseZone(ABC):
     def zone_info(self):
         pass
 
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
