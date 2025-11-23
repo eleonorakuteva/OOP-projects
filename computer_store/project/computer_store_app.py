@@ -30,7 +30,7 @@ class ComputerStoreApp:
         has_wanted_computer = next((c for c in self.warehouse
                                     if c.price <= client_budget
                                     and c.processor == wanted_processor
-                                    and wanted_ram >= c.ram), None)
+                                    and c.ram >= wanted_ram), None)
 
         if has_wanted_computer is None:
             raise Exception("Sorry, we don't have a computer for you.")
