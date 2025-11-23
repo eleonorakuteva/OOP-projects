@@ -22,7 +22,7 @@ class Computer(ABC):
 
     @property
     def model(self):
-        return
+        return self.__model
 
     @model.setter
     def model(self, value):
