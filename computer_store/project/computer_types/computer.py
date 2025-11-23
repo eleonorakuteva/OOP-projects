@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from math import log2
 
 
 class Computer(ABC):
@@ -29,9 +30,47 @@ class Computer(ABC):
             raise ValueError("Model name cannot be empty.")
         self.__model = value
 
+    @property
     @abstractmethod
-    def configure_computer(self, processor: str, ram: int):
+    def max_ram(self):
         pass
 
-    def __repr__(self):
+    @property
+    @abstractmethod
+    def valid_processors(self) -> dict[str: int]:
+        pass
+
+    @property
+    @abstractmethod
+    def type_computer(self) -> str:
+        pass
+
+    def configure_computer(self, processor: str, ram: int):
+        if processor not in self.valid_processors.keys():
+            raise ValueError(f"{processor} is not compatible with {self.type_computer} {self.manufacturer} {self.model}!")
+
+        if ram not in self.list_valid_ram():
+            raise ValueError(f"{ram}GB RAM is not compatible with {self.type_computer} {self.manufacturer} {self.model}!")
+
+        processor_price = self.valid_processors[processor]
+        ram_price = self.ram_price(ram)
+
+        self.processor = processor
+        self.ram = ram
+        self.price = processor_price + ram_price
+
+        return (f"Created "
+                f"{repr(self)}"
+                f" for {self.price}$.")
+
+    def list_valid_ram(self) -> list:
+        valid_ram = [2 ** i for i in range(1, int(log2(self.max_ram))+1)]
+        return valid_ram
+
+    @staticmethod
+    def ram_price(ram):
+        return int(log2(ram) * 100)
+
+
+    def __repr__(self) -> str:
         return f"{self.manufacturer} {self.model} with {self.processor} and {self.ram}GB RAM"
