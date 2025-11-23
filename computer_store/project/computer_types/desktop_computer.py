@@ -13,9 +13,11 @@ class DesktopComputer(Computer):
 
     @property
     def valid_processors(self) -> dict[str: int]:
-        return {"AMD Ryzen 7 5700G": 500,
-                "Intel Core i5-12600K": 600,
-                "Apple M1 Max": 1800}
+        return {
+            "AMD Ryzen 7 5700G": 500,
+            "Intel Core i5-12600K": 600,
+            "Apple M1 Max": 1800,
+        }
 
     @property
     def type_computer(self):
