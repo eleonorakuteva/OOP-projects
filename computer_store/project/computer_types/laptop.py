@@ -12,9 +12,11 @@ class Laptop(Computer):
 
     @property
     def valid_processors(self) -> dict[str: int]:
-        return {"AMD Ryzen 9 5950X": 900,
-                "Intel Core i9-11900H": 1_050,
-                "Apple M1 Pro": 1_200}
+        return {
+            "AMD Ryzen 9 5950X": 900,
+            "Intel Core i9-11900H": 1050,
+            "Apple M1 Pro": 1200,
+        }
 
     @property
     def type_computer(self):
