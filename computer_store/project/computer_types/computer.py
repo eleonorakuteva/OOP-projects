@@ -3,6 +3,9 @@ from math import log2
 
 
 class Computer(ABC):
+
+    ONE_BLOCK_OF_RAM_PRICE: int = 100
+
     def __init__(self, manufacturer: str, model: str):
         self.manufacturer = manufacturer
         self.model = model
@@ -67,9 +70,8 @@ class Computer(ABC):
         valid_ram = [2 ** i for i in range(1, int(log2(self.max_ram))+1)]
         return valid_ram
 
-    @staticmethod
-    def ram_price(ram):
-        return int(log2(ram) * 100)
+    def ram_price(self, ram):
+        return int(log2(ram)) * self.ONE_BLOCK_OF_RAM_PRICE
 
 
     def __repr__(self) -> str:
