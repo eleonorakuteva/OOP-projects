@@ -52,3 +52,5 @@ class BankApp:
     def get_statistics(self) -> str:
         total_clients_count = len(self.clients)
         result = [f"Active Clients: {total_clients_count}"]
+
+        return '\n'.join(result)
