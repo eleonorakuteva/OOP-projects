@@ -8,7 +8,7 @@ class MortgageLoan(BaseLoan):
     AMOUNT = 50_000.00
 
     def __init__(self):
-        super().__init__(self.interest_rate, self.AMOUNT)
+        super().__init__(self.INTEREST_RATE, self.AMOUNT)
 
     def increase_interest_rate(self):
         self.interest_rate += self.INCREASE_INTEREST_RATE
