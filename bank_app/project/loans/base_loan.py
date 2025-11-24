@@ -9,3 +9,8 @@ class BaseLoan(ABC):
     @abstractmethod
     def increase_interest_rate(self):
         pass
+
+    @property
+    @abstractmethod
+    def loan_type(self):
+        pass
