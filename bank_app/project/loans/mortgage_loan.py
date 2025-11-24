@@ -12,3 +12,7 @@ class MortgageLoan(BaseLoan):
 
     def increase_interest_rate(self):
         self.interest_rate += self.INCREASE_INTEREST_RATE
+
+    @property
+    def loan_type(self):
+        return "MortgageLoan"
