@@ -38,7 +38,19 @@ class BankApp:
             raise Exception("Invalid client type!")
 
     def grant_loan(self, loan_type: str, client_id: str):
-        pass
+        curr_client = next((c for c in self.clients if c.client_id == client_id), None)
+        curr_loan = next((l for l in self.loans if l.loan_type == loan_type), None)
+
+        if not curr_loan and not curr_client:
+            pass
+
+        if curr_loan.loan_type != curr_client.type_of_loan:
+            raise Exception("Inappropriate loan type!")
+
+        curr_client.loans.append(curr_loan)
+        self.loans.remove(curr_loan)
+        return f"Successfully granted {loan_type} to {curr_client.name} with ID {client_id}."
+    
 
     def remove_client(self, client_id: str):
         pass
