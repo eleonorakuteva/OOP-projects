@@ -50,10 +50,19 @@ class BankApp:
         curr_client.loans.append(curr_loan)
         self.loans.remove(curr_loan)
         return f"Successfully granted {loan_type} to {curr_client.name} with ID {client_id}."
-    
+
 
     def remove_client(self, client_id: str):
-        pass
+        curr_client = next((c for c in self.clients if c.client_id == client_id), None)
+        if curr_client is None:
+            raise Exception("No such client!")
+
+        if curr_client.loans:
+            raise Exception("The client has loans! Removal is impossible!")
+
+        self.clients.remove(curr_client)
+        return f"Successfully removed {curr_client.name} with ID {client_id}."
+
 
     def increase_loan_interest(self, loan_type: str):
         pass
