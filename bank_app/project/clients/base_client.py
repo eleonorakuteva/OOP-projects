@@ -45,4 +45,9 @@ class BaseClient(ABC):
     def increase_clients_interest(self):
         pass
 
+    @property
+    @abstractmethod
+    def type_of_loan(self):
+        pass
+
 
