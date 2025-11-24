@@ -1,7 +1,7 @@
 from project.clients.base_client import BaseClient
 
 
-class Student(BaseClient):
+class Adult(BaseClient):
     INITIAL_INTEREST = 4.0
     PERCENT_TO_INCREASE_INTEREST = 2.0
 
