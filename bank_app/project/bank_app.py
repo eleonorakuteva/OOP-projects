@@ -28,7 +28,7 @@ class BankApp:
     def add_client(self, client_type: str, client_name: str, client_id: str, income: float):
         try:
             new_client = self.VALID_TYPES_CLIENT[client_type](client_name, client_id, income)
-            if self.capacity <= 0:
+            if self.capacity <= len(self.clients):
                 return "Not enough bank capacity."
 
             self.clients.append(new_client)
@@ -79,9 +79,9 @@ class BankApp:
     def get_statistics(self) -> str:
         total_clients_count = len(self.clients)
 
-        total_clients_income = len(self.clients)
-        loans_count_granted_to_clients = 0
-        granted_sum = 0
+        total_clients_income = sum(c.income for c in self.clients)
+        loans_count_granted_to_clients = sum(1 for c in self.clients for l in c.loans)
+        granted_sum = sum(l.amount for c in self.clients for l in c.loans)
         loans_count_not_granted = len(self.loans)
         not_granted_sum = sum(l.amount for l in self.loans)
 
@@ -89,9 +89,9 @@ class BankApp:
 
 
         result = [f"Active Clients: {total_clients_count}",
-                  f"Total Income: {total_clients_income}"
-                  f"Granted Loans: {loans_count_granted_to_clients}, Total Sum: {granted_sum}",
-                  f"Available Loans: {loans_count_not_granted}, Total Sum: {not_granted_sum}",
-                  f"Average Client Interest Rate: {avg_client_interest_rate}"]
+                  f"Total Income: {total_clients_income:.2f}",
+                  f"Granted Loans: {loans_count_granted_to_clients}, Total Sum: {granted_sum:.2f}",
+                  f"Available Loans: {loans_count_not_granted}, Total Sum: {not_granted_sum:.2f}",
+                  f"Average Client Interest Rate: {avg_client_interest_rate:.2f}"]
 
         return '\n'.join(result)
