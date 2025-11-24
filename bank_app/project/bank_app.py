@@ -26,6 +26,7 @@ class BankApp:
 
 
     def add_client(self, client_type: str, client_name: str, client_id: str, income: float):
+
         try:
             new_client = self.VALID_TYPES_CLIENT[client_type](client_name, client_id, income)
             if len(self.clients) >= self.capacity:
@@ -37,7 +38,9 @@ class BankApp:
         except KeyError:
             raise Exception("Invalid client type!")
 
+
     def grant_loan(self, loan_type: str, client_id: str):
+
         curr_client = next((c for c in self.clients if c.client_id == client_id), None)
         curr_loan = next((l for l in self.loans if l.loan_type == loan_type), None)
 
@@ -53,6 +56,7 @@ class BankApp:
 
 
     def remove_client(self, client_id: str):
+
         curr_client = next((c for c in self.clients if c.client_id == client_id), None)
         if curr_client is None:
             raise Exception("No such client!")
@@ -65,33 +69,33 @@ class BankApp:
 
 
     def increase_loan_interest(self, loan_type: str):
+
         increasing_all_loans_in_the_bank_with_curr_loan_type = [l.increase_interest_rate() for l in self.loans if l.loan_type == loan_type]
 
         return f"Successfully changed {len(increasing_all_loans_in_the_bank_with_curr_loan_type)} loans."
 
+
     def increase_clients_interest(self, min_rate: float):
+
         increasing_interest_for_all_clients_with_rate_less_then_minimum = [c.increase_clients_interest()
                                                                            for c in self.clients
                                                                            if c.interest < min_rate]
         return f"Number of clients affected: {len(increasing_interest_for_all_clients_with_rate_less_then_minimum)}."
 
 
-    def get_statistics(self) -> str:
-        total_clients_count = len(self.clients)
+    def get_statistics(self):
 
         total_clients_income = sum(c.income for c in self.clients)
         loans_count_granted_to_clients = sum(1 for c in self.clients for l in c.loans)
         granted_sum = sum(l.amount for c in self.clients for l in c.loans)
-        loans_count_not_granted = len(self.loans)
         not_granted_sum = sum(l.amount for l in self.loans)
+        avg_client_interest_rate = sum(c.interest for c in self.clients) / len(self.clients) if self.clients else 0
 
-        avg_client_interest_rate = sum(c.interest for c in self.clients) / len(self.clients)
 
-
-        result = (f"Active Clients: {total_clients_count}\n"
+        result = (f"Active Clients: {len(self.clients)}\n"
                   f"Total Income: {total_clients_income:.2f}\n"
                   f"Granted Loans: {loans_count_granted_to_clients}, Total Sum: {granted_sum:.2f}\n"
-                  f"Available Loans: {loans_count_not_granted}, Total Sum: {not_granted_sum:.2f}\n"
+                  f"Available Loans: {len(self.loans)}, Total Sum: {not_granted_sum:.2f}\n"
                   f"Average Client Interest Rate: {avg_client_interest_rate:.2f}")
 
         return result
