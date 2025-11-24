@@ -11,3 +11,7 @@ class Student(BaseClient):
 
     def increase_clients_interest(self):
         self.interest += self.PERCENT_TO_INCREASE_INTEREST
+
+    @property
+    def type_of_loan(self):
+        return "StudentLoan"
