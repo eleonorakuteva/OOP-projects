@@ -65,13 +65,33 @@ class BankApp:
 
 
     def increase_loan_interest(self, loan_type: str):
-        pass
+        increasing_all_loans_in_the_bank_with_curr_loan_type = [l.increase_interest_rate() for l in self.loans if l.loan_type == loan_type]
+
+        return f"Successfully changed {len(increasing_all_loans_in_the_bank_with_curr_loan_type)} loans."
 
     def increase_clients_interest(self, min_rate: float):
-        pass
+        increasing_interest_for_all_clients_with_rate_less_then_minimum = [c.increase_clients_interest()
+                                                                           for c in self.clients
+                                                                           if c.interest < min_rate]
+        return f"Number of clients affected: {len(increasing_interest_for_all_clients_with_rate_less_then_minimum)}."
+
 
     def get_statistics(self) -> str:
         total_clients_count = len(self.clients)
-        result = [f"Active Clients: {total_clients_count}"]
+
+        total_clients_income = len(self.clients)
+        loans_count_granted_to_clients = 0
+        granted_sum = 0
+        loans_count_not_granted = len(self.loans)
+        not_granted_sum = sum(l.amount for l in self.loans)
+
+        avg_client_interest_rate = sum(c.interest for c in self.clients) / len(self.clients)
+
+
+        result = [f"Active Clients: {total_clients_count}",
+                  f"Total Income: {total_clients_income}"
+                  f"Granted Loans: {loans_count_granted_to_clients}, Total Sum: {granted_sum}",
+                  f"Available Loans: {loans_count_not_granted}, Total Sum: {not_granted_sum}",
+                  f"Average Client Interest Rate: {avg_client_interest_rate}"]
 
         return '\n'.join(result)
