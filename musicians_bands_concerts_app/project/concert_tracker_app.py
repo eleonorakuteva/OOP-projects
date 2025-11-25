@@ -13,7 +13,7 @@ class ConcertTrackerApp:
         "Drummer": Drummer,
         "Singer": Singer
     }
-    VALID_BAND_TYPES = {}
+
 
     def __init__(self):
         self.bands: list[Band] = []
@@ -77,5 +77,48 @@ class ConcertTrackerApp:
         return f"{musician_name} was removed from {band_name}."
 
     def start_concert(self, concert_place: str, band_name: str):
-        pass
+        curr_concert = next((c for c in self.concerts if c.place == concert_place), None)
+        curr_band = next((b for b in self.bands if b.name == band_name), None)
+
+        if not curr_concert and not curr_band:
+            pass
+
+        drummers = [d for d in curr_band.members if isinstance(d, Drummer)]
+        singers = [s for s in curr_band.members if isinstance(s, Singer)]
+        guitarists = [g for g in curr_band.members if isinstance(g, Guitarist)]
+
+
+        if not (drummers and singers and guitarists):
+            raise Exception(f"{band_name} can't start the concert because it doesn't have enough members!")
+
+        drummers_have_needed_skill = False
+        singers_have_needed_skill = False
+        guitarists_have_needed_skill = False
+
+        if curr_concert.genre == "Rock":
+            drummers_have_needed_skill = all("play the drums with drumsticks" in  d.skills for d in drummers)
+            singers_have_needed_skill = all("sing high pitch notes" in  s.skills for s in singers)
+            guitarists_have_needed_skill = all("play rock" in  g.skills for g in guitarists)
+
+        elif curr_concert.genre == "Metal":
+            drummers_have_needed_skill = all("play the drums with drumsticks" in d.skills for d in drummers)
+            singers_have_needed_skill = all("sing low pitch notes" in s.skills for s in singers)
+            guitarists_have_needed_skill = all("play metal" in g.skills for g in guitarists)
+
+        elif curr_concert.genre == "Jazz":
+            drummers_have_needed_skill = all("play the drums with drum brushes" in d.skills for d in drummers)
+            singers_have_needed_skill = all(["sing high pitch notes", "sing low pitch notes"] in s.skills for s in singers)
+            guitarists_have_needed_skill = all("play jazz" in g.skills for g in guitarists)
+
+
+        if drummers_have_needed_skill and singers_have_needed_skill and guitarists_have_needed_skill:
+            profit = (curr_concert.audience * curr_concert.ticket_price) - curr_concert.expenses
+            return f"{band_name} gained {profit:.2f}$ from the {curr_concert.genre} concert in {concert_place}."
+        else:
+            raise Exception(f"The {band_name} band is not ready to play at the concert!")
+
+
+
+
+
 
