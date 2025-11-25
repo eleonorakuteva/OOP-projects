@@ -50,13 +50,31 @@ class ConcertTrackerApp:
 
         self.concerts.append(new_concert)
         return f"{genre} concert in {place} was added."
-    
+
 
     def add_musician_to_band(self, musician_name: str, band_name: str):
-        pass
+        curr_musician = next((m for m in self.musicians if musician_name == m.name), None)
+        if curr_musician is None:
+            raise Exception(f"{musician_name} isn't a musician!")
+
+        curr_band = next((b for b in self.bands if band_name == b.name), None)
+        if curr_band is None:
+            raise Exception(f"{band_name} isn't a band!")
+
+        curr_band.members.append(curr_musician)
+        return f"{musician_name} was added to {band_name}."
 
     def remove_musician_from_band(self, musician_name: str, band_name: str):
-        pass
+        curr_band = next((b for b in self.bands if band_name == b.name), None)
+        if curr_band is None:
+            raise Exception(f"{band_name} isn't a band!")
+
+        member_in_curr_band = next((m for m in curr_band.members if m.name == musician_name), None)
+        if member_in_curr_band is None:
+            raise Exception(f"{musician_name} isn't a member of {band_name}!")
+
+        curr_band.members.remove(member_in_curr_band)
+        return f"{musician_name} was removed from {band_name}."
 
     def start_concert(self, concert_place: str, band_name: str):
         pass
