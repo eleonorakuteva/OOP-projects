@@ -46,3 +46,18 @@ class ChristmasPastryShopApp:
 
         self.booths.append(new_booth)
         return f"Added booth number {booth_number} in the pastry shop."
+
+    def reserve_booth(self, number_of_people: int):
+        # if number_of_people <= 0:
+        #     return "not correct number_of_people provided"
+
+        have_booth = next((b for b in self.booths if not b.is_reserved and b.capacity >= number_of_people), None)
+
+        if not have_booth:
+            raise Exception(f"No available booth for {number_of_people} people!")
+
+        have_booth.reserve(number_of_people)
+        return f"Booth {have_booth.booth_number} has been reserved for {number_of_people} people."
+
+    def order_delicacy(self, booth_number: int, delicacy_name: str):
+        pass
