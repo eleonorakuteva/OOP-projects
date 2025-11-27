@@ -83,7 +83,7 @@ class ChristmasPastryShopApp:
         self.income += whole_bill
 
         # We can make method for unregister !
-        
+
         booth_with_curr_number.delicacy_orders = []
         booth_with_curr_number.is_reserved = False
         booth_with_curr_number.price_for_reservation = 0
