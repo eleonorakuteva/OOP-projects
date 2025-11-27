@@ -21,11 +21,16 @@ class ConcertTrackerApp:
         self.concerts: list[Concert] = []
 
     def create_musician(self, musician_type: str, name: str, age: int):
+
+        same_name =  next((filter(lambda x: x.name == name, self.musicians)), None)
+        if same_name:
+            raise Exception(f"{name} is already a musician!")
+
         try:
             new_musician = self.VALID_MUSICIANS_TYPES[musician_type](name, age)
 
-            if any(m.name == name for m in self.musicians):
-                raise Exception(f"{name} is already a musician!")
+            # if any(m.name == name for m in self.musicians):
+            #     raise Exception(f"{name} is already a musician!")
 
             self.musicians.append(new_musician)
             return f"{name} is now a {musician_type}."
@@ -69,12 +74,13 @@ class ConcertTrackerApp:
         if curr_band is None:
             raise Exception(f"{band_name} isn't a band!")
 
-        member_in_curr_band = next((m for m in curr_band.members if m.name == musician_name), None)
-        if member_in_curr_band is None:
+        curr_member = next((m for m in curr_band.members if m.name == musician_name), None)
+        if curr_member is None:
             raise Exception(f"{musician_name} isn't a member of {band_name}!")
 
-        curr_band.members.remove(member_in_curr_band)
-        return f"{musician_name} was removed from {band_name}."
+        if curr_member in curr_band.members:
+            curr_band.members.remove(curr_member)
+            return f"{musician_name} was removed from {band_name}."
 
     def start_concert(self, concert_place: str, band_name: str):
         curr_concert = next((c for c in self.concerts if c.place == concert_place), None)
