@@ -59,5 +59,33 @@ class ChristmasPastryShopApp:
         have_booth.reserve(number_of_people)
         return f"Booth {have_booth.booth_number} has been reserved for {number_of_people} people."
 
+
     def order_delicacy(self, booth_number: int, delicacy_name: str):
-        pass
+        booth_with_curr_number = next((b for b in self.booths if b.booth_number == booth_number), None)
+        if booth_with_curr_number is None:
+            raise Exception(f"Could not find booth {booth_number}!")
+
+        delicacy_with_curr_name = next((d for d in self.delicacies if delicacy_name == d.name), None)
+        if delicacy_with_curr_name is None:
+            raise Exception(f"No {delicacy_name} in the pastry shop!")
+
+        booth_with_curr_number.delicacy_orders.append(delicacy_with_curr_name)
+        return f"Booth {booth_number} ordered {delicacy_name}."
+
+
+    def leave_booth(self, booth_number: int):
+        booth_with_curr_number = next((b for b in self.booths if b.booth_number == booth_number), None)
+        price_for_all_orders = sum(d.price for d in booth_with_curr_number.delicacy_orders)
+
+
+        whole_bill = price_for_all_orders + booth_with_curr_number.price_for_reservation
+        self.income += whole_bill
+
+        booth_with_curr_number.delicacy_orders = []
+        booth_with_curr_number.is_reserved = False
+        booth_with_curr_number.price_for_reservation = 0
+        return f"Booth {booth_number}:\nBill: {whole_bill:.2f}lv."
+
+
+    def get_income(self):
+        return f"Income: {self.income:.2f}lv."
