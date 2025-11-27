@@ -20,10 +20,13 @@ class ChristmasPastryShopApp:
     def add_delicacy(self, type_delicacy: str, name: str, price: float):
         try:
             new_delicacy = self.VALID_DELICACIES_TYPES[type_delicacy](name, price)
+
         except KeyError:
             raise Exception(f"{type_delicacy} is not on our delicacy menu!")
 
-        if new_delicacy in self.delicacies:
+        has_delicacy_with_same_name = next((d for d in self.delicacies if d.name == name),None)
+
+        if has_delicacy_with_same_name:
             raise Exception(f"{name} already exists!")
 
         self.delicacies.append(new_delicacy)
@@ -36,7 +39,10 @@ class ChristmasPastryShopApp:
         except KeyError:
             raise Exception(f"{type_booth} is not a valid booth!")
 
-        if new_booth in self.booths:
+        has_booth_with_same_booth_number = next((b for b in self.booths if b.booth_number == booth_number), None)
+
+        if has_booth_with_same_booth_number:
             raise Exception(f"Booth number {booth_number} already exists!")
 
         self.booths.append(new_booth)
+        return f"Added booth number {booth_number} in the pastry shop."
