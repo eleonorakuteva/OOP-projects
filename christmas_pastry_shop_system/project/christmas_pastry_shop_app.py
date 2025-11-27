@@ -17,6 +17,7 @@ class ChristmasPastryShopApp:
         self.delicacies: list[Delicacy] = []
         self.income: float = 0.0
 
+
     def add_delicacy(self, type_delicacy: str, name: str, price: float):
         try:
             new_delicacy = self.VALID_DELICACIES_TYPES[type_delicacy](name, price)
@@ -81,6 +82,8 @@ class ChristmasPastryShopApp:
         whole_bill = price_for_all_orders + booth_with_curr_number.price_for_reservation
         self.income += whole_bill
 
+        # We can make method for unregister !
+        
         booth_with_curr_number.delicacy_orders = []
         booth_with_curr_number.is_reserved = False
         booth_with_curr_number.price_for_reservation = 0
