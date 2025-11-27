@@ -29,7 +29,7 @@ class Concert:
 
     @audience.setter
     def audience(self, value: int):
-        if value < self.MINIMUM_AUDIENCE:
+        if value <= self.MINIMUM_AUDIENCE:
             raise ValueError("At least one person should attend the concert!")
         self.__audience = value
 
