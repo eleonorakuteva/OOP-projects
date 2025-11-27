@@ -7,6 +7,7 @@ class Singer(Musician):
 
     @property
     def available_skills_for_type_of_musician(self) -> list[str]:
-        return ["sing high pitch notes", "sing low pitch notes"]
+        return ["sing high pitch notes",
+                "sing low pitch notes"]
     
     
