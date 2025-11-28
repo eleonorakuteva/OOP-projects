@@ -24,6 +24,7 @@ class FoodOrdersApp:
     def __init__(self):
         self.menu: list[Meal] = []
         self.clients_list: list[Client] = []
+        self.receipt_id = 0
 
     def register_client(self, client_phone_number: str):
         client_in_clients_list = next((c for c in self.clients_list if c.phone_number == client_phone_number),None)
@@ -60,15 +61,13 @@ class FoodOrdersApp:
             self.clients_list.append(new_client)
             curr_client = new_client
 
-        client_order: list[list] = []
-        order_successful = True
+        meals_to_order: list[tuple] = []
 
         for meal_name, order_quantity in meal_names_and_quantities.items():
 
             names_match = [meal for meal in self.menu if meal_name == meal.name]
 
             if not names_match:
-                order_successful = False
                 raise Exception(f"{meal_name} is not on the menu!")
 
             meal_type = names_match[0].__class__.__name__
@@ -76,26 +75,22 @@ class FoodOrdersApp:
 
 
             if quantity_match is None:
-                order_successful = False
-
                 raise Exception(f"Not enough quantity of {meal_type}: {meal_name}!")
 
+            meals_to_order.append((quantity_match, meal_type, meal_name, order_quantity))
+
+        for quantity_match, meal_type, meal_name, order_quantity in meals_to_order:
             client_meal = self.VALID_MEAL_TYPES[meal_type](meal_name, quantity_match.price, order_quantity)
 
-            # remove_order_quantity_from_the_menu
             quantity_match.quantity -= order_quantity
-
-            client_order.append([quantity_match.name, quantity_match.price, order_quantity])
             curr_client.shopping_cart.append(client_meal)
+            curr_client.bill += order_quantity * quantity_match.price
 
-        if order_successful:
+        meal_names = ', '.join(meal.name for meal in curr_client.shopping_cart)
 
-            client_bill = sum(quant * price for name, price, quant in client_order)
-            curr_client.bill += client_bill
+        return f"Client {client_phone_number} successfully ordered {meal_names} for {curr_client.bill:.2f}lv."
 
-            meal_names = ', '.join(meal.name for meal in curr_client.shopping_cart)
 
-            return f"Client {client_phone_number} successfully ordered {meal_names} for {curr_client.bill:.2f}lv."
 
     def cancel_order(self, client_phone_number: str):
         curr_client = next((c for c in self.clients_list if c.phone_number == client_phone_number), None)
@@ -125,10 +120,10 @@ class FoodOrdersApp:
                 curr_meal_in_menu.quantity += meal.quantity
                 continue
 
-            elif meal.name not in list_of_menu_names:
-                # append whole product
-                self.menu.append(meal)
-                continue
+            # elif meal.name not in list_of_menu_names:
+            #     # append whole product
+            #     self.menu.append(meal)
+            #     continue
 
         curr_client.shopping_cart = []
         curr_client.bill = 0
@@ -154,9 +149,9 @@ class FoodOrdersApp:
         curr_client.shopping_cart = []
         total_paid_money = curr_client.bill
         curr_client.bill = 0
-        curr_client.receipt_id += 1
+        self.receipt_id += 1
 
-        return f"Receipt #{curr_client.receipt_id} with total amount of {total_paid_money:.2f} was successfully paid for {client_phone_number}."
+        return f"Receipt #{self.receipt_id} with total amount of {total_paid_money:.2f} was successfully paid for {client_phone_number}."
 
     def __str__(self):
         number_of_listed_meals = len(self.menu)
