@@ -6,6 +6,7 @@ class Client:
         self.phone_number = phone_number
         self.shopping_cart: list[Meal] = []
         self.bill: float = 0.0
+        self.receipt_id = 0
 
     @property
     def phone_number(self):
