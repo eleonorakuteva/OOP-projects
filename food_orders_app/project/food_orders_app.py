@@ -147,6 +147,17 @@ class FoodOrdersApp:
             # print("there is no client with that phone_number")
             pass
 
+        if not curr_client.shopping_cart:
+            raise Exception("There are no ordered meals!")
+
+
+        curr_client.shopping_cart = []
+        total_paid_money = curr_client.bill
+        curr_client.bill = 0
+        curr_client.receipt_id += 1
+
+        return f"Receipt #{curr_client.receipt_id} with total amount of {total_paid_money:.2f} was successfully paid for {client_phone_number}."
+
 
     def _is_menu_ready(self):
         if len(self.menu) < self.MINIMUM_MEALS_IN_MENU:
@@ -192,9 +203,31 @@ additional_food = {"Risotto with Wild Mushrooms": 2,
                    "Tortilla with Beef and Pork": 2}
 print(food_orders_app.add_meals_to_shopping_cart('0899999999', **additional_food))
 
-print(food_orders_app.cancel_order('0899999999'))
+# print(food_orders_app.cancel_order('0899999999'))
 
-# print(food_orders_app.finish_order("0899999999"))
+print(food_orders_app.finish_order("0899999999"))
+
+food = {"Hummus and Avocado Sandwich": 5,
+        "Risotto with Wild Mushrooms": 1,
+        "Chocolate and Violets": 4}
+
+print(food_orders_app.add_meals_to_shopping_cart('0899999999', **food))
+print(food_orders_app.finish_order("0899999999"))
+
+food = {"Hummus and Avocado Sandwich": 5,
+        "Risotto with Wild Mushrooms": 1,
+        "Chocolate and Violets": 4}
+
+print(food_orders_app.add_meals_to_shopping_cart('0899999991', **food))
+print(food_orders_app.finish_order("0899999991"))
+
+food = {"Hummus and Avocado Sandwich": 5,
+        "Risotto with Wild Mushrooms": 1,
+        "Chocolate and Violets": 4}
+
+print(food_orders_app.add_meals_to_shopping_cart('0899999999', **food))
+print(food_orders_app.finish_order("0899999999"))
+
 # print(food_orders_app)
 
 
