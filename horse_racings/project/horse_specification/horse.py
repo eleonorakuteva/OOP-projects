@@ -41,7 +41,7 @@ class Horse(ABC):
     def increases_speed_by_train(self) -> int:
         pass
 
-    @abstractmethod
     def train(self):
-        pass
+        expected_speed = self.speed + self.increases_speed_by_train
+        self.speed = min(self.max_speed, expected_speed)
 
