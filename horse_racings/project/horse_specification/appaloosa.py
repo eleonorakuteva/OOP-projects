@@ -14,13 +14,13 @@ class Appaloosa(Horse):
     def increases_speed_by_train(self):
         return 2
 
-    def train(self):
-        self.speed += self.increases_speed_by_train
 
 
-# a = Appaloosa("horse", 115)
+
+# a = Appaloosa("horse", 117)
 # print(a.train())
 # print(a.speed)
 # print(a.train())
 # print(a.speed)
 # print(a.train())
+# print(a.speed)
