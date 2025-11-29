@@ -21,17 +21,17 @@ class HorseRaceApp:
 
     def add_horse(self, horse_type: str, horse_name: str, horse_speed: int):
 
-        if horse_type not in self.VALID_TYPE_HORSES.keys():
-            pass
-
         have_horse_with_same_name = next((h for h in self.horses if h.name == horse_name), None)
 
         if have_horse_with_same_name:
             raise Exception(f"Horse {horse_name} has been already added!")
 
-        new_horse = self.VALID_TYPE_HORSES[horse_type](horse_name, horse_speed)
-        self.horses.append(new_horse)
-        return f"{horse_type} horse {horse_name} is added."
+        try:
+            new_horse = self.VALID_TYPE_HORSES[horse_type](horse_name, horse_speed)
+            self.horses.append(new_horse)
+            return f"{horse_type} horse {horse_name} is added."
+        except KeyError:
+            pass
 
 
     def add_jockey(self, jockey_name: str, age: int):
@@ -139,20 +139,5 @@ class HorseRaceApp:
         return race_with_given_type
 
 
-
-horseRaceApp = HorseRaceApp()
-print(horseRaceApp.add_horse("Appaloosa", "Spirit", 80))
-print(horseRaceApp.add_horse("Thoroughbred", "Rocket", 110))
-print(horseRaceApp.add_jockey("Peter", 19))
-print(horseRaceApp.add_jockey("Mariya", 21))
-print(horseRaceApp.create_horse_race("Summer"))
-
-print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
-print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
-print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
-print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
-print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
-print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
-print(horseRaceApp.start_horse_race("Summer"))
 
 
