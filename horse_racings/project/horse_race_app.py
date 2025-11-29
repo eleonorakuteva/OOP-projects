@@ -12,6 +12,8 @@ class HorseRaceApp:
         "Thoroughbred": Thoroughbred
     }
 
+    MINIMUM_PARTICIPANTS_IN_RACE = 2
+
     def __init__(self):
         self.horses: list[Horse] = []
         self.jockeys: list[Jockey] = []
@@ -56,28 +58,81 @@ class HorseRaceApp:
 
 
     def add_horse_to_jockey(self, jockey_name: str, horse_type: str):
-        pass
+        curr_jockey = next((j for j in self.jockeys if j.name == jockey_name), None)
+
+        if curr_jockey is None:
+            raise Exception(f"Jockey {jockey_name} could not be found!")
+
+        all_horses_from_given_type = [h for h in self.horses if h.__class__.__name__ == horse_type and not h.is_taken]
+
+        if not all_horses_from_given_type:
+            raise Exception(f"Horse breed {horse_type} could not be found!")
+
+        if curr_jockey.horse is not None:
+            return f"Jockey {jockey_name} already has a horse."
+
+        last_horse_from_list = all_horses_from_given_type.pop()
+        horse_name = last_horse_from_list.name
+        last_horse_from_list.is_taken = True
+        curr_jockey.horse = last_horse_from_list
+        return f"Jockey {jockey_name} will ride the horse {horse_name}."
+
+
 
     def add_jockey_to_horse_race(self, race_type: str, jockey_name: str):
-        pass
+        race_with_given_type = self._search_by_race_type(race_type)
+
+        curr_jockey = next((j for j in self.jockeys if jockey_name == j.name), None)
+
+        if curr_jockey is None:
+            raise Exception(f"Jockey {jockey_name} could not be found!")
+
+        if curr_jockey.horse is None:
+            raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
+
+        race_with_given_type.jockeys.append(curr_jockey)
+        return f"Jockey {jockey_name} added to the {race_type} race."
+
 
     def start_horse_race(self, race_type: str):
-        pass
+        curr_race = self._search_by_race_type(race_type)
+
+        participant_in_curr_race = self._participant_in_current_race(curr_race)
+
+        if participant_in_curr_race < self.MINIMUM_PARTICIPANTS_IN_RACE:
+            raise Exception(f"Horse race {race_type} needs at least two participants!")
+
+        
+
+    @staticmethod
+    def _participant_in_current_race(race: HorseRace) -> int:
+        return len(race.jockeys)
+
+    def _search_by_race_type(self, race_type):
+        race_with_given_type = next((r for r in self.horse_races if r.race_type == race_type), None)
+
+        if race_with_given_type is None:
+            raise Exception(f"Race {race_type} could not be found!")
+
+        return race_with_given_type
 
 
-# horseRaceApp = HorseRaceApp()
-# print(horseRaceApp.add_horse("Appaloosa", "Spirit", 80))
-# print(horseRaceApp.add_horse("Thoroughbred", "Rocket", 110))
-# print(horseRaceApp.add_jockey("Peter", 19))
-# print(horseRaceApp.add_jockey("Mariya", 21))
-# print(horseRaceApp.create_horse_race("Summer"))
+
+horseRaceApp = HorseRaceApp()
+print(horseRaceApp.add_horse("Appaloosa", "Spirit", 80))
+print(horseRaceApp.add_horse("Thoroughbred", "Rocket", 110))
+print(horseRaceApp.add_jockey("Peter", 19))
+print(horseRaceApp.add_jockey("Mariya", 21))
+print(horseRaceApp.create_horse_race("Summer"))
 
 
-# print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
-# print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
-# print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
-# print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
-# print(horseRaceApp.start_horse_race("Summer"))
+print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
+print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
+print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
+
+
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
+print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
+print(horseRaceApp.start_horse_race("Summer"))
 
