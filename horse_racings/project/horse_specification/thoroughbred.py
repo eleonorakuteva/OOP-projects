@@ -16,14 +16,4 @@ class Thoroughbred(Horse):
 
 
 
-a = Thoroughbred("horse", 133)
-print(a.train())
-print(a.speed)
-print(a.train())
-print(a.speed)
-print(a.train())
-print(a.speed)
-print(a.train())
-a.speed += 1
-print(a.speed)
 
