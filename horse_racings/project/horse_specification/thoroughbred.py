@@ -14,16 +14,16 @@ class Thoroughbred(Horse):
     def increases_speed_by_train(self):
         return 3
 
-    def train(self):
-        self.speed += self.increases_speed_by_train
 
-# a = Thoroughbred("horse", 133)
-# print(a.train())
-# print(a.speed)
-# print(a.train())
-# print(a.speed)
-# a.speed += 1
-# print(a.speed)
-# a.speed += 1
-# print(a.speed)
+
+a = Thoroughbred("horse", 133)
+print(a.train())
+print(a.speed)
+print(a.train())
+print(a.speed)
+print(a.train())
+print(a.speed)
+print(a.train())
+a.speed += 1
+print(a.speed)
 
