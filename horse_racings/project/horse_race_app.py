@@ -90,6 +90,11 @@ class HorseRaceApp:
         if curr_jockey.horse is None:
             raise Exception(f"Jockey {jockey_name} cannot race without a horse!")
 
+        jockey_already_in_curr_race = next((j for j in race_with_given_type.jockeys if j.name == jockey_name), None)
+
+        if jockey_already_in_curr_race:
+            return f"Jockey {jockey_name} has been already added to the {race_type} race."
+
         race_with_given_type.jockeys.append(curr_jockey)
         return f"Jockey {jockey_name} added to the {race_type} race."
 
@@ -102,7 +107,24 @@ class HorseRaceApp:
         if participant_in_curr_race < self.MINIMUM_PARTICIPANTS_IN_RACE:
             raise Exception(f"Horse race {race_type} needs at least two participants!")
 
-        
+        winner_jockey = self._find_winner_jockey(curr_race)
+
+        return (f"The winner of the {race_type} race, "
+                f"with a speed of {winner_jockey.horse.speed}km/h "
+                f"is {winner_jockey.name}! "
+                f"Winner's horse: {winner_jockey.horse.name}.")
+
+    @staticmethod
+    def _find_winner_jockey(race: HorseRace):
+        horse_highest_speed = 0
+        winner_jockey: Jockey | None = None
+
+        for jockey in race.jockeys:
+            if jockey.horse.speed > horse_highest_speed:
+                horse_highest_speed = jockey.horse.speed
+                winner_jockey = jockey
+
+        return winner_jockey
 
     @staticmethod
     def _participant_in_current_race(race: HorseRace) -> int:
@@ -125,14 +147,12 @@ print(horseRaceApp.add_jockey("Peter", 19))
 print(horseRaceApp.add_jockey("Mariya", 21))
 print(horseRaceApp.create_horse_race("Summer"))
 
-
 print(horseRaceApp.add_horse_to_jockey("Peter", "Appaloosa"))
 print(horseRaceApp.add_horse_to_jockey("Peter", "Thoroughbred"))
 print(horseRaceApp.add_horse_to_jockey("Mariya", "Thoroughbred"))
-
-
 print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
 print(horseRaceApp.add_jockey_to_horse_race("Summer", "Peter"))
 print(horseRaceApp.add_jockey_to_horse_race("Summer", "Mariya"))
 print(horseRaceApp.start_horse_race("Summer"))
+
 
