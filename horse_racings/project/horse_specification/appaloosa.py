@@ -15,12 +15,3 @@ class Appaloosa(Horse):
         return 2
 
 
-
-
-# a = Appaloosa("horse", 117)
-# print(a.train())
-# print(a.speed)
-# print(a.train())
-# print(a.speed)
-# print(a.train())
-# print(a.speed)
