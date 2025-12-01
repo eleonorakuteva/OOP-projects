@@ -44,7 +44,16 @@ class Movie(ABC):
         self.__owner = value
 
 
+    def details(self):
+        return (f"{self.type} - Title:{self.title}, "
+                f"Year:{self.year}, "
+                f"Age restriction:{self.age_restriction}, "
+                f"Likes:{self.likes}, "
+                f"Owned by:{self.owner.username}")
+
+
+    @property
     @abstractmethod
-    def details(self) -> str:
+    def type(self) -> str:
         pass
 
