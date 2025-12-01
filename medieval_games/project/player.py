@@ -13,9 +13,7 @@ class Player:
 
     @property
     def _need_sustenance(self):
-        if self.__stamina == 100:
-            return False
-        return True
+        return self.__stamina < 100
 
 
     @property
@@ -45,8 +43,6 @@ class Player:
 
     @property
     def stamina(self):
-        if self.__stamina > 100 or self.__stamina < 0:
-            raise ValueError("Stamina not valid!")
         return self.__stamina
 
     @stamina.setter
