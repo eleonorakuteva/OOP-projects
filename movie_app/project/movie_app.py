@@ -134,19 +134,17 @@ class MovieApp:
 
     def __str__(self):
 
-        all_users = "All users: "
         if self.users_collection:
-            all_users += ', '.join(user.username for user in self.users_collection)
+            users = ', '.join(user.username for user in self.users_collection)
         else:
-            all_users += "No users."
+            users = "No users."
 
-        all_movies = "All movies: "
         if self.movies_collection:
-            all_movies += ', '.join(m.title for m in self.movies_collection)
+            movies = ', '.join(m.title for m in self.movies_collection)
         else:
-            all_movies += "No movies."
+            movies = "No movies."
 
-        return f"{all_users}\n{all_movies}"
+        return f'All users: {users}\nAll movies: {movies}'
 
 
     def _find_user_by_username(self, username) -> User | None:
