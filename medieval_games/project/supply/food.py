@@ -10,6 +10,10 @@ class Food(Supply):
             energy = self.INITIAL_UNITS_OF_ENERGY
         super().__init__(name, energy)
 
-    def details(self):
-        return f"{type(self).__name__}: {self.name}, {self.energy}"
+    @property
+    def type(self):
+        return "Food"
+
+    # def details(self):
+    #     return f"{type(self).__name__}: {self.name}, {self.energy}"
 
