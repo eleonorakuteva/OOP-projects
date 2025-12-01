@@ -120,14 +120,17 @@ class MovieApp:
 
 
     def display_movies(self):
-        sorted_movies = sorted(self.movies_collection, key=lambda m: (m.age_restriction, m.title))
+        sorted_movies = sorted(self.movies_collection, key=lambda m: (-m.year, m.title))
+
+        if not sorted_movies:
+            return "No movies found."
+
         result = []
         for movie in sorted_movies:
             result.append(movie.details())
-        if not sorted_movies:
-            result = ["No movies found."]
 
         return '\n'.join(result)
+
 
     def __str__(self):
 
@@ -138,7 +141,7 @@ class MovieApp:
             all_users += "No users."
 
         all_movies = "All movies: "
-        if self.users_collection:
+        if self.movies_collection:
             all_movies += ', '.join(m.title for m in self.movies_collection)
         else:
             all_movies += "No movies."
