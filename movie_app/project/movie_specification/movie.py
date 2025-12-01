@@ -12,16 +12,6 @@ class Movie(ABC):
         self.age_restriction = age_restriction
         self.likes: int = 0
 
-    # ADD THIS:
-    @property
-    def age_restriction(self):
-        return self._age_restriction
-
-    @age_restriction.setter
-    def age_restriction(self, value: int):
-        # Base class just stores it, child classes will override with validation
-        self._age_restriction = value
-    # ====
 
     @property
     def title(self):
