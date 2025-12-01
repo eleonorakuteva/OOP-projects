@@ -9,7 +9,7 @@ class Movie(ABC):
     def __init__(self, title: str, year: int, owner: object, age_restriction: int):
         self.title = title
         self.year = year
-        self.owner: object[User] = owner
+        self.owner = owner
         self.age_restriction = age_restriction
         self.likes: int = 0
 
