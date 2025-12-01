@@ -32,5 +32,5 @@ class Supply(ABC):
     def type(self):
         pass
 
-    def details(self):
+    def details(self) -> str:
         return f"{self.type}: {self.name}, {self.energy}"
