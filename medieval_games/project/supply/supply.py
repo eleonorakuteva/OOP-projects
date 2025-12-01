@@ -27,6 +27,10 @@ class Supply(ABC):
             raise ValueError("Energy cannot be less than zero.")
         self.__energy = value
 
+    @property
     @abstractmethod
-    def details(self):
+    def type(self):
         pass
+
+    def details(self):
+        return f"{self.type}: {self.name}, {self.energy}"
