@@ -29,7 +29,7 @@ class MovieApp:
             raise Exception("This user does not exist!")
 
         if curr_movie.owner != curr_user:
-            raise Exception(f"{curr_user.username} is not the owner of "
+            raise Exception(f"{username} is not the owner of "
                             f"the movie {curr_movie.title}!")
 
         if curr_movie in self.movies_collection:
@@ -120,10 +120,10 @@ class MovieApp:
 
 
     def display_movies(self):
-        sorted_movies = sorted(self.movies_collection, key=lambda m: (-m.year, m.title))
-
-        if not sorted_movies:
+        if not self.movies_collection:
             return "No movies found."
+
+        sorted_movies = sorted(self.movies_collection, key=lambda m: (-m.year, m.title))
 
         result = []
         for movie in sorted_movies:
