@@ -11,7 +11,7 @@ class Controller:
     def add_player(self, *players: Player):
         pass
 
-    def add_supply(self, supplies: Supply):
+    def add_supply(self, *supplies: Supply):
         pass
 
     def sustain(self, player_name: str, sustenance_type: str):
@@ -23,5 +23,5 @@ class Controller:
     def next_day(self):
         pass
 
-    def __str__(self):
-        pass
+    def __str__(self) -> str:
+        return "nothing"
