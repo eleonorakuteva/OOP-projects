@@ -1,5 +1,5 @@
-from logging import raiseExceptions
-
+from project.movie_specification.action import Action
+from project.movie_specification.fantasy import Fantasy
 from project.movie_specification.movie import Movie
 from project.user import User
 
@@ -12,8 +12,8 @@ class MovieApp:
 
 
     def register_user(self, username: str, age: int):
-        user = self._find_user_by_username(username)
-        if user:
+        curr_user = self._find_user_by_username(username)
+        if curr_user:
             raise Exception("User already exists!")
 
         new_user = User(username, age)
@@ -21,7 +21,7 @@ class MovieApp:
         return f"{username} registered successfully."
 
 
-    def upload_movie(self, username: str, movie: Movie):
+    def upload_movie(self, username: str, curr_movie: Movie):
         """
         Only the owner of the given movie can upload it.
         The method adds the movie to the user's movies_owned list as well as the movies_collection list
@@ -31,19 +31,19 @@ class MovieApp:
         if curr_user is None:
             raise Exception("This user does not exist!")
 
-        if movie.owner != curr_user:
+        if curr_movie.owner != curr_user:
             raise Exception(f"{curr_user.username} is not the owner of "
-                            f"the movie {movie.title}!")
+                            f"the movie {curr_movie.title}!")
 
-        if movie in self.movies_collection:
+        if curr_movie in self.movies_collection:
             raise Exception("Movie already added to the collection!")
 
-        curr_user.movies_owned.append(movie)
-        self.movies_collection.append(movie)
-        return f"{username} successfully added {movie.title} movie."
+        curr_user.movies_owned.append(curr_movie)
+        self.movies_collection.append(curr_movie)
+        return f"{username} successfully added {curr_movie.title} movie."
 
 
-    def edit_movie(self, username: str, movie: Movie, **kwargs):
+    def edit_movie(self, username: str, curr_movie: Movie, **kwargs):
         """
         Only the owner of the movie given can edit it.
         You will always be given usernames of registered users.
@@ -55,21 +55,21 @@ class MovieApp:
 
         curr_user = self._find_user_by_username(username)
 
-        if movie not in self.movies_collection:
-            raise Exception(f"The movie {movie.title} is not uploaded!")
+        if curr_movie not in self.movies_collection:
+            raise Exception(f"The movie {curr_movie.title} is not uploaded!")
 
-        if movie.owner != curr_user:
-            raise Exception(f"{username} is not the owner of the movie {movie.title}!")
+        if curr_movie.owner != curr_user:
+            raise Exception(f"{username} is not the owner of the movie {curr_movie.title}!")
 
-        print(movie.__dict__)
+        # print(movie.__dict__)
         for attribute in kwargs:
-            if attribute in movie.__dict__:
+            if attribute in curr_movie.__dict__:
                 pass
 
-        return f"{username} successfully edited {movie.title} movie."
+        return f"{username} successfully edited {curr_movie.title} movie."
 
 
-    def delete_movie(self, username: str, movie: Movie):
+    def delete_movie(self, username: str, curr_movie: Movie):
         """
         Only the owner of the movie given can delete it.
         You will always be given usernames of registered users.
@@ -77,17 +77,17 @@ class MovieApp:
         """
         curr_user = self._find_user_by_username(username)
 
-        if movie not in self.movies_collection:
-            raise Exception(f"The movie {movie.title} is not uploaded!")
+        if curr_movie not in self.movies_collection:
+            raise Exception(f"The movie {curr_movie.title} is not uploaded!")
 
-        if movie.owner != curr_user:
-            raise Exception(f"{username} is not the owner of the movie {movie.title}!")
+        if curr_movie.owner != curr_user:
+            raise Exception(f"{username} is not the owner of the movie {curr_movie.title}!")
 
-        self.movies_collection.remove(movie)
-        curr_user.movies_owned.remove(movie)
-        return f"{username} successfully deleted {movie.title} movie."
+        self.movies_collection.remove(curr_movie)
+        curr_user.movies_owned.remove(curr_movie)
+        return f"{username} successfully deleted {curr_movie.title} movie."
 
-    def like_movie(self, username: str, movie: Movie):
+    def like_movie(self, username: str, curr_movie: Movie):
         """
         Owners cannot like their own movies.
         You will always be given usernames of registered users and uploaded movies.
@@ -96,17 +96,17 @@ class MovieApp:
         """
 
         curr_user = self._find_user_by_username(username)
-        if movie.owner == curr_user:
-            raise Exception(f"{username} is the owner of the movie {movie.title}!")
+        if curr_movie.owner == curr_user:
+            raise Exception(f"{username} is the owner of the movie {curr_movie.title}!")
 
-        if movie in curr_user.movies_liked:
-            raise Exception(f"{username} already liked the movie {movie.title}!")
+        if curr_movie in curr_user.movies_liked:
+            raise Exception(f"{username} already liked the movie {curr_movie.title}!")
 
-        movie.likes += 1
-        curr_user.movies_liked.append(movie)
-        return f"{username} liked {movie.title} movie."
+        curr_movie.likes += 1
+        curr_user.movies_liked.append(curr_movie)
+        return f"{username} liked {curr_movie.title} movie."
 
-    def dislike_movie(self, username: str, movie: Movie):
+    def dislike_movie(self, username: str, curr_movie: Movie):
         """
         Only the user who has liked the movie can dislike it.
         You will always be given usernames of registered users and uploaded movies.
@@ -115,12 +115,12 @@ class MovieApp:
         """
 
         curr_user = self._find_user_by_username(username)
-        if movie not in curr_user.movies_liked:
-            raise Exception(f"{username} has not liked the movie {movie.title}!")
+        if curr_movie not in curr_user.movies_liked:
+            raise Exception(f"{username} has not liked the movie {curr_movie.title}!")
 
-        movie.likes -= 1
-        curr_user.movies_liked.remove(movie)
-        return f"{username} disliked {movie.title} movie."
+        curr_movie.likes -= 1
+        curr_user.movies_liked.remove(curr_movie)
+        return f"{username} disliked {curr_movie.title} movie."
 
 
     def display_movies(self):
@@ -137,3 +137,25 @@ class MovieApp:
     def _find_user_by_username(self, username) -> User | None:
         user = next((u for u in self.users_collection if u.username == username), None)
         return user
+
+
+movie_app = MovieApp()
+print(movie_app.register_user('Martin', 24))
+user = movie_app.users_collection[0]
+movie = Action('Die Hard', 1988, user, 18)
+print(movie_app.upload_movie('Martin', movie))
+print(movie_app.movies_collection[0].title)
+print(movie_app.register_user('Alexandra', 25))
+user2 = movie_app.users_collection[1]
+movie2 = Action('Free Guy', 2021, user2, 16)
+print(movie_app.upload_movie('Alexandra', movie2))
+print(movie_app.edit_movie('Alexandra', movie2, title="Free Guy 2"))
+print(movie_app.like_movie('Martin', movie2))
+print(movie_app.like_movie('Alexandra', movie))
+print(movie_app.dislike_movie('Martin', movie2))
+print(movie_app.like_movie('Martin', movie2))
+print(movie_app.delete_movie('Alexandra', movie2))
+movie2 = Fantasy('The Lord of the Rings', 2003, user2, 14)
+print(movie_app.upload_movie('Alexandra', movie2))
+print(movie_app.display_movies())
+print(movie_app)
