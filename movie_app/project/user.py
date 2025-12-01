@@ -32,10 +32,10 @@ class User:
         self.__age = value
 
     def __str__(self):
-        result = [f"Username: {self.username}, Age: {self.age}"]
+        result = [f"Username: {self.username}, Age: {self.age}", "Liked movies:"]
 
         if self.movies_liked:
-            result.append("Liked movies:")
+            # result.append("Liked movies:")
             for movie in self.movies_liked:
                 result.append(movie.details())
         else:
