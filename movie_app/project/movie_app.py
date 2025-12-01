@@ -60,10 +60,9 @@ class MovieApp:
         if curr_movie.owner != curr_user:
             raise Exception(f"{username} is not the owner of the movie {curr_movie.title}!")
 
-        # print(movie.__dict__)
-        for attribute in kwargs:
-            if attribute in curr_movie.__dict__:
-                pass
+        # Edit the movie attributes with the given kwargs
+        for attribute, value in kwargs.items():
+            setattr(curr_movie, attribute, value)
 
         return f"{username} successfully edited {curr_movie.title} movie."
 
