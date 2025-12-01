@@ -50,5 +50,5 @@ class User:
         else:
             result.append("No movies owned.")
 
-        return '\n'.join(result) 
+        return '\n'.join(result)
 
