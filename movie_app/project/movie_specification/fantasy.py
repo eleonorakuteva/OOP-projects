@@ -5,8 +5,10 @@ class Fantasy(Movie):
 
     MINIMUM_AGE_RESTRICTIONS = 6
 
-    def __init__(self, title: str, year: int, owner: object, age_restriction: int = self.MINIMUM_AGE_RESTRICTIONS):
-        super().__init__(title, year, owner, age_restriction = age_restriction)
+    def __init__(self, title: str, year: int, owner: object, age_restriction: int = None):
+        if age_restriction is None:
+            age_restriction = self.MINIMUM_AGE_RESTRICTIONS
+        super().__init__(title, year, owner, age_restriction=age_restriction)
 
     @property
     def age_restriction(self):
