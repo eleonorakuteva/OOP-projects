@@ -23,4 +23,4 @@ class Action(Movie):
 
     @property
     def type(self):
-        return f"Action"
+        return "Action"
