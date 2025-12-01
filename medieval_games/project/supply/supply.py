@@ -17,7 +17,7 @@ class Supply(ABC):
             raise ValueError("Name cannot be an empty string.")
         self.__name = value
 
-    @@property
+    @property
     def energy(self):
         return self.__energy
 
