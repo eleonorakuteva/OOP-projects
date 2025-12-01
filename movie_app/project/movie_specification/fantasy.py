@@ -1,4 +1,4 @@
-from project.movie_specifications.movie import Movie
+from project.movie_specification.movie import Movie
 
 
 class Fantasy(Movie):
