@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from project.user import User
 
 
 class Movie(ABC):
