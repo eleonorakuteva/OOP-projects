@@ -1,7 +1,5 @@
 from project.movie_specification.movie import Movie
 from project.user import User
-from project.movie_specification.action import Action
-from project.movie_specification.fantasy import Fantasy
 
 class MovieApp:
 
@@ -122,16 +120,34 @@ class MovieApp:
 
 
     def display_movies(self):
-        pass
+        sorted_movies = sorted(self.movies_collection, key=lambda m: (m.age_restriction, m.title))
+        result = []
+        for movie in sorted_movies:
+            result.append(movie.details())
+        if not sorted_movies:
+            result = ["No movies found."]
 
+        return '\n'.join(result)
 
     def __str__(self):
-        pass
 
+        all_users = "All users: "
+        if self.users_collection:
+            all_users += ', '.join(user.username for user in self.users_collection)
+        else:
+            all_users += "No users."
+
+        all_movies = "All movies: "
+        if self.users_collection:
+            all_movies += ', '.join(m.title for m in self.movies_collection)
+        else:
+            all_movies += "No movies."
+
+        return f"{all_users}\n{all_movies}"
 
 
     def _find_user_by_username(self, username) -> User | None:
-        user = next((u for u in self.users_collection if u.username == username), None)
-        return user
+            user = next((u for u in self.users_collection if u.username == username), None)
+            return user
 
 
