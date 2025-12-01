@@ -23,7 +23,7 @@ class Controller:
     def add_supply(self, *supplies: Supply):
 
         # for supply in supplies:
-        self.supplies.extend(supply for supply in supplies)
+        self.supplies.extend(supplies)
 
 
     def sustain(self, player_name: str, sustenance_type: str):
@@ -31,11 +31,11 @@ class Controller:
 
         # If the player is not in the players list, ignore the command.
         if curr_player is None:
-            pass
+            return None
 
         # •	The valid sustenance types are "Food" and "Drink". In any other case, ignore the command.
         if sustenance_type not in self.VALID_TYPES_SUSTENANCE:
-            pass
+            return None
 
         list_curr_sustenance = [s for s in self.supplies if s.type == sustenance_type]
 
@@ -53,25 +53,87 @@ class Controller:
         # but his stamina cannot enhance above 100 (it should be set to 100).
 
         curr_sustenance = list_curr_sustenance.pop()
+        for i in range(len(self.supplies) -1, 0, -1):
+            if self.supplies[i] == curr_sustenance:
+                self.supplies.pop(i)
+                break
         gained_stamina = curr_sustenance.energy + curr_player.stamina
         curr_player.stamina = min(100, gained_stamina)
         return f"{player_name} sustained successfully with {curr_sustenance.name}."
 
-    
-
-
-
-
-
-
-
 
 
     def duel(self, first_player_name: str, second_player_name: str):
-        pass
+        """
+        There will be no case where both players will have equal stamina values at the beginning or in the end.
+        The players will always exist in the players list.
+        """
+
+        first_player = next((p for p in self.players if p.name == first_player_name), None)
+        second_player = next((p for p in self.players if p.name == second_player_name), None)
+
+        msg = self._if_players_can_participate_in_duel(first_player, second_player)
+        if msg:
+            return '\n'.join(msg)
+
+
+
+
 
     def next_day(self):
-        pass
+        for player in self.players:
+            reduced_amount = player.stamina - (player.age * 2)
+            player.stamina = max(0, reduced_amount)
+
+            for sustenance_type in self.VALID_TYPES_SUSTENANCE:
+                self.sustain(player.name, sustenance_type)
+
 
     def __str__(self) -> str:
-        return "nothing"
+        result = []
+
+        for player in self.players:
+            result.append(str(player))
+
+        for supply in self.supplies:
+            result.append(supply.details())
+
+        return '\n'.join(result)
+
+    @staticmethod
+    def _if_players_can_participate_in_duel(player1, player2):
+        result = []
+        if player1.stamina == 0:
+            result.append(f"Player {player1.name} does not have enough stamina.")
+        if player2.stamina == 0:
+            result.append(f"Player {player2.name} does not have enough stamina.")
+        return result
+
+    @staticmethod
+    def _find_who_attacks_first(player1, player2):
+        first_player_attacker = None
+        second_player_attacker = None
+        if player1.stamina < player2.stamina:
+            first_player_attacker = player1
+            second_player_attacker = player2
+        elif player2.stamina < player1.stamina:
+            first_player_attacker = player2
+            second_player_attacker = player1
+
+        return first_player_attacker, second_player_attacker
+
+    @staticmethod
+    def _attack(player_attacker, player_take_damage):
+        player_loses = None
+        player_winner = None
+
+        attacker_power = player_attacker.stamina // 2
+
+        amount_of_damage = player_take_damage.stamina - attacker_power
+
+        if player_take_damage.stamina - amount_of_damage <= 0:
+            player_take_damage.stamina = 0
+            player_loses = player_take_damage
+            player_winner = player_attacker
+            return ""
+
