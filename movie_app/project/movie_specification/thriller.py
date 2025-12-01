@@ -1,7 +1,7 @@
 from project.movie_specification.movie import Movie
 
 
-class Action(Movie):
+class Thriller(Movie):
 
     MINIMUM_AGE_RESTRICTIONS = 16
 
