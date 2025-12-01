@@ -38,6 +38,8 @@ class Movie(ABC):
 
     @owner.setter
     def owner(self, value: object):
+        from project.user import User
+
         if not isinstance(value, User):
             raise ValueError("The owner must be an object of type User!")
         self.__owner = value
