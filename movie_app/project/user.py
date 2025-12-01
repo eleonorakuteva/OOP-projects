@@ -1,5 +1,6 @@
 from project.movie_specification.movie import Movie
 
+
 class User:
 
     MINIMUM_ALLOWED_AGE = 6
