@@ -10,7 +10,7 @@ class Astronaut(ABC):
 
     @property
     @abstractmethod
-    def oxygen_units_while_breathing(self) -> int:
+    def oxygen_units_while_breathing(self):
         pass
 
     @property
@@ -24,7 +24,7 @@ class Astronaut(ABC):
         self.__name = value
 
     def breathe(self):
-        self.oxygen -= self.oxygen_units_while_breathing
+        self.oxygen -= self.oxygen_units_while_breathing()
 
     def increase_oxygen(self, amount: int):
         self.oxygen += amount
