@@ -19,6 +19,9 @@ class SpaceStation:
     def __init__(self):
         self.planet_repository = PlanetRepository()
         self.astronaut_repository = AstronautRepository()
+        self.successful_missions = 0
+        self.not_completed_missions = 0
+
 
     def add_astronaut(self, astronaut_type: str, name: str):
         try:
@@ -73,7 +76,14 @@ class SpaceStation:
 
 
     def report(self) -> str:
-        pass
+        result = [f"{self.successful_missions} successful missions!",
+                  f"{self.not_completed_missions} missions were not completed!",
+                  f"Astronauts' info:"]
+
+        for a in self.astronaut_repository.astronauts:
+            result.append(a.details())
+
+        return '\n'.join(result)
 
     def is_success_collecting_items_from_planet(self, planet: Planet, astronauts: list[Astronaut]):
         astronauts = deque(astronauts)
@@ -91,12 +101,15 @@ class SpaceStation:
             if astro.oxygen > 0:
                 collected_item = planet.items.pop()
                 astro.backpack.append(collected_item)
-            # ? >=<
-            elif astro.oxygen < 0:
+
+            elif astro.oxygen <= 0:
+                astro.oxygen = 0
                 astronauts.popleft()
 
         if not planet.items:
+            self.successful_missions += 1
             return True
+        self.not_completed_missions += 1
         return False
 
 
@@ -120,39 +133,6 @@ class SpaceStation:
         # print([a.oxygen for a in top_five_suitable])
         return top_five_suitable
 
-space = SpaceStation()
-# add astronaut
-print(space.add_astronaut("Geodesist", "name"))
-print(space.add_astronaut("Geodesist", "name_test"))
-print(space.add_astronaut("Meteorologist", "name"))
-print(space.add_astronaut("Meteorologist", "name_2"))
-print(space.add_astronaut("Geodesist", "name_3"))
-print(space.add_astronaut("Biologist", "name_4"))
-# print(space.add_astronaut("Biologist", "name_5"))
-# print(space.add_astronaut("Biologist", "name_6"))
-print([a.name for a in space.astronaut_repository.astronauts])
-
-
-# retire astonaut
-# print(space.retire_astronaut("invalid"))
-print(space.retire_astronaut("name_test"))
-print([a.name for a in space.astronaut_repository.astronauts])
-
-
-# add planet
-print(space.add_planet("planet", "a, b, c, d, e, f, g, h, i ,j ,k ,l, m, n, o, p, q, r"))
-print(space.add_planet("planet_test", "e"))
-print([p.items for p in space.planet_repository.planets])
-
-# recharge_oxygen
-print([a.oxygen for a in space.astronaut_repository.astronauts])
-print(space.recharge_oxygen())
-print([a.oxygen for a in space.astronaut_repository.astronauts])
-
-print("==========")
-# send_on_mission
-# print(space.send_on_mission("invalid_name"))
-print(space.send_on_mission("planet"))
 
 
 
