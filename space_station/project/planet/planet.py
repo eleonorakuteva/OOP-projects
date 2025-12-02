@@ -13,3 +13,6 @@ class Planet:
         if not value.strip():
             raise ValueError("Planet name cannot be empty string or whitespace!")
         self.__name = value
+
+    def extend_items(self, items: list[str]):
+        self.items.extend(items)
