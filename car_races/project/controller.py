@@ -57,7 +57,8 @@ class Controller:
             raise Exception(f"Car {car_type} could not be found!")
 
         # if driver doesn't have a car
-        if curr_driver.car is None:
+        if not curr_driver.has_car:
+            curr_driver.car = curr_car
             return f"Driver {driver_name} chose the car {curr_car.model}."
 
         # if driver has a car
@@ -67,6 +68,46 @@ class Controller:
         new_model = curr_driver.car.model
         return (f"Driver {driver_name} changed his car from "
                 f"{old_model} to {new_model}.")
+
+    def add_driver_to_race(self, race_name: str, driver_name: str):
+        curr_race = self._race_found_by_name(race_name)
+        if not curr_race:
+            raise Exception(f"Race {race_name} could not be found!")
+
+        curr_driver = self._driver_found_by_name(driver_name)
+        if not curr_driver:
+            raise Exception(f"Driver {driver_name} could not be found!")
+
+        if not curr_driver.has_car:
+            raise Exception(f"Driver {driver_name} could not participate in the race!")
+
+        # driver already participated in the race
+        if curr_driver in curr_race.drivers:
+            return f"Driver {driver_name} is already added in {race_name} race."
+
+        else:
+            curr_race.drivers.append(curr_driver)
+            return f"Driver {driver_name} added in {race_name} race."
+
+
+
+    def start_race(self, race_name: str):
+        curr_race = self._race_found_by_name(race_name)
+        if not curr_race:
+            raise Exception(f"Race {race_name} could not be found!")
+
+        if len(curr_race.drivers) < 3:
+            raise Exception(f"Race {race_name} cannot start with less than 3 participants!")
+
+        winners = sorted(curr_race.drivers, key=lambda d: -d.car.speed_limit)
+        print([f"{d.name}, {d.car.speed_limit}" for d in winners])
+        # result = []
+        # for idx in range(0, 3):
+        #     speed_limit = winners[idx].car.speed_limit
+        #     result.append(f"Driver {winners[idx].name} wins "
+        #                   f"the {race_name} race with a speed "
+        #                   f"of {speed_limit}.")
+        # return '\n'.join(result)
 
 
     def _driver_found_by_name(self, driver_name)-> bool | Driver:
