@@ -36,6 +36,6 @@ class Car(ABC):
 
     @speed_limit.setter
     def speed_limit(self, value):
-        if value not in range(self.min_speed_limit, self.max_speed_limit + 1):
-            raise ValueError(f"Invalid speed limit! Must be between {self.min_speed_limit} and {self.max_speed_limit}!")
+        if value not in range(self.min_speed_limit(), self.max_speed_limit() + 1):
+            raise ValueError(f"Invalid speed limit! Must be between {self.min_speed_limit()} and {self.max_speed_limit()}!")
         self.__speed_limit = value
