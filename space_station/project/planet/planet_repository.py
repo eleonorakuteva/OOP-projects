@@ -14,4 +14,3 @@ class PlanetRepository:
 
     def find_by_name(self, name: str):
         return next((p for p in self.planets if p.name == name), None)
-    
