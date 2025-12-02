@@ -28,10 +28,33 @@ class Controller:
         return f"{car_type} {model} is created."
 
     def create_driver(self, driver_name: str):
-        driver_already_exists = next((d for d in self.drivers if d.name == driver_name), None)
+        driver_already_exists = self._driver_found_by_name(driver_name)
         if driver_already_exists:
             raise Exception(f"Driver {driver_name} is already created!")
 
         new_driver = Driver(driver_name)
         self.drivers.append(new_driver)
         return f"Driver {driver_name} is created."
+
+
+    def create_race(self, race_name: str):
+        race_already_exists = self._race_found_by_name(race_name)
+        if race_already_exists:
+            raise Exception(f"Race {race_name} is already created!")
+
+        new_race = Race(race_name)
+        self.races.append(new_race)
+        return f"Race {race_name} is created."
+
+    def _driver_found_by_name(self, driver_name)-> bool:
+        driver = next((d for d in self.drivers if d.name == driver_name), None)
+        if driver:
+            return True
+        return False
+
+    def _race_found_by_name(self, race_name) -> bool:
+        race = next((r for r in self.races if r.name == race_name), None)
+        if race:
+            return True
+        return False
+
