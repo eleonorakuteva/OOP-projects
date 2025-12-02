@@ -58,13 +58,16 @@ class Controller:
 
         # if driver doesn't have a car
         if not curr_driver.has_car:
+            curr_car.is_taken = True
             curr_driver.car = curr_car
             return f"Driver {driver_name} chose the car {curr_car.model}."
 
         # if driver has a car
         old_model = curr_driver.car.model
+        curr_driver.car.is_taken = False
         # change the old one with the curr one
         curr_driver.car = curr_car
+        curr_car.is_taken = True
         new_model = curr_driver.car.model
         return (f"Driver {driver_name} changed his car from "
                 f"{old_model} to {new_model}.")
@@ -100,14 +103,16 @@ class Controller:
             raise Exception(f"Race {race_name} cannot start with less than 3 participants!")
 
         winners = sorted(curr_race.drivers, key=lambda d: -d.car.speed_limit)
-        print([f"{d.name}, {d.car.speed_limit}" for d in winners])
-        # result = []
-        # for idx in range(0, 3):
-        #     speed_limit = winners[idx].car.speed_limit
-        #     result.append(f"Driver {winners[idx].name} wins "
-        #                   f"the {race_name} race with a speed "
-        #                   f"of {speed_limit}.")
-        # return '\n'.join(result)
+        # print([f"{d.name}, {d.car.speed_limit}" for d in winners])
+        result = []
+        for idx in range(0, 3):
+            speed_limit = winners[idx].car.speed_limit
+            driver_name = winners[idx].name
+            winners[idx].number_of_wins += 1
+            result.append(f"Driver {driver_name} wins "
+                          f"the {race_name} race with a speed "
+                          f"of {speed_limit}.")
+        return '\n'.join(result)
 
 
     def _driver_found_by_name(self, driver_name)-> bool | Driver:
