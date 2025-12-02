@@ -19,5 +19,9 @@ first_player.stamina = 0
 print(controller.duel("Peter", "Lilly"))
 print(first_player)
 print(second_player)
+print([s.name for s in controller.supplies])
 controller.next_day()
+print([s.name for s in controller.supplies])
 print(controller)
+
+
