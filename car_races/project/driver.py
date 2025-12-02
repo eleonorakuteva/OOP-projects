@@ -18,3 +18,7 @@ class Driver:
             raise ValueError("Name should contain at least one character!")
         self.__name = value
 
+    @property
+    def has_car(self):
+        return self.car is not None
+
