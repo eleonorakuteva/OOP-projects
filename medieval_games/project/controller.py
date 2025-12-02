@@ -76,7 +76,10 @@ class Controller:
         if msg:
             return '\n'.join(msg)
 
-
+        if first_player < second_player:
+            return self._attack(first_player, second_player)
+        else:
+            return self._attack(second_player, first_player)
 
 
 
@@ -84,7 +87,8 @@ class Controller:
         for player in self.players:
             reduced_amount = player.stamina - (player.age * 2)
             player.stamina = max(0, reduced_amount)
-
+            # self.sustain(player.name, "Food")
+            # self.sustain(player.name, "Drink")
             for sustenance_type in self.VALID_TYPES_SUSTENANCE:
                 self.sustain(player.name, sustenance_type)
 
@@ -109,31 +113,24 @@ class Controller:
             result.append(f"Player {player2.name} does not have enough stamina.")
         return result
 
-    @staticmethod
-    def _find_who_attacks_first(player1, player2):
-        first_player_attacker = None
-        second_player_attacker = None
-        if player1.stamina < player2.stamina:
-            first_player_attacker = player1
-            second_player_attacker = player2
-        elif player2.stamina < player1.stamina:
-            first_player_attacker = player2
-            second_player_attacker = player1
 
-        return first_player_attacker, second_player_attacker
+
 
     @staticmethod
-    def _attack(player_attacker, player_take_damage):
-        player_loses = None
-        player_winner = None
+    def _attack(attacker, take_damage):
 
-        attacker_power = player_attacker.stamina // 2
+        take_damage.stamina -= attacker.stamina / 2
 
-        amount_of_damage = player_take_damage.stamina - attacker_power
+        if attacker.stamina - (take_damage.stamina / 2) <= 0:
+            attacker.stamina = 0
 
-        if player_take_damage.stamina - amount_of_damage <= 0:
-            player_take_damage.stamina = 0
-            player_loses = player_take_damage
-            player_winner = player_attacker
-            return ""
+        else:
+            attacker.stamina -= take_damage.stamina / 2
+
+        if attacker < take_damage:
+            return f"Winner: {take_damage.name}"
+        else:
+            return f"Winner: {attacker.name}"
+
+
 
