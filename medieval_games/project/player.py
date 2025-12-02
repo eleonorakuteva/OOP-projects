@@ -9,12 +9,11 @@ class Player:
         self.name = name
         self.age = age
         self.stamina = stamina
-        self.need_sustenance: bool = self._need_sustenance
+
 
     @property
-    def _need_sustenance(self):
+    def need_sustenance(self):
         return self.__stamina < 100
-
 
     @property
     def name(self):
@@ -55,5 +54,5 @@ class Player:
         return self.stamina < other.stamina
 
     def __str__(self):
-        return f"Player: {self.name}, {self.age}, {self.stamina}, {self._need_sustenance}"
+        return f"Player: {self.name}, {self.age}, {self.stamina}, {self.need_sustenance}"
 
