@@ -28,3 +28,12 @@ class Astronaut(ABC):
 
     def increase_oxygen(self, amount: int):
         self.oxygen += amount
+
+    def details(self):
+        backpack_items = "none"
+        if len(self.backpack) > 0:
+            backpack_items = ', '.join(self.backpack)
+
+        return (f"Name: {self.name}\n"
+                f"Oxygen: {self.oxygen}\n"
+                f"Backpack items: {backpack_items}")
