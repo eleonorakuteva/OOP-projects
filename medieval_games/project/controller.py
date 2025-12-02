@@ -33,13 +33,13 @@ class Controller:
         if curr_player is None:
             return None
 
-        # •	The valid sustenance types are "Food" and "Drink". In any other case, ignore the command.
+        # The valid sustenance types are "Food" and "Drink". In any other case, ignore the command.
         if sustenance_type not in self.VALID_TYPES_SUSTENANCE:
             return None
 
-        list_curr_sustenance = [s for s in self.supplies if s.type == sustenance_type]
+        has_curr_sustenance = next((s for s in self.supplies if s.type == sustenance_type), None)
 
-        if not list_curr_sustenance:
+        if has_curr_sustenance is None:
             raise Exception(f"There are no {sustenance_type.lower()} supplies left!")
 
         # If the player doesn't need sustenance, it won't be appropriate to waste a supply
@@ -52,14 +52,14 @@ class Controller:
         # A player always uses the whole amount (units) of the given supply,
         # but his stamina cannot enhance above 100 (it should be set to 100).
 
-        curr_sustenance = list_curr_sustenance.pop()
+        last_sustenance = None
         for i in range(len(self.supplies) -1, 0, -1):
-            if self.supplies[i] == curr_sustenance:
-                self.supplies.pop(i)
+            if self.supplies[i].type == sustenance_type:
+                last_sustenance = self.supplies.pop(i)
                 break
-        gained_stamina = curr_sustenance.energy + curr_player.stamina
+        gained_stamina = last_sustenance.energy + curr_player.stamina
         curr_player.stamina = min(100, gained_stamina)
-        return f"{player_name} sustained successfully with {curr_sustenance.name}."
+        return f"{player_name} sustained successfully with {last_sustenance.name}."
 
 
 
@@ -82,13 +82,22 @@ class Controller:
             return self._attack(second_player, first_player)
 
 
+    # def next_day(self):
+    #     for p in self.players:
+    #         if p.stamina - (p.age * 2) < 0:
+    #             p.stamina = 0
+    #         else:
+    #             p.stamina -= (p.age * 2)
+    #     for p in self.players:
+    #         self.sustain(p.name, "Food")
+    #         self.sustain(p.name, "Drink")
 
     def next_day(self):
         for player in self.players:
+
             reduced_amount = player.stamina - (player.age * 2)
             player.stamina = max(0, reduced_amount)
-            # self.sustain(player.name, "Food")
-            # self.sustain(player.name, "Drink")
+
             for sustenance_type in self.VALID_TYPES_SUSTENANCE:
                 self.sustain(player.name, sustenance_type)
 
