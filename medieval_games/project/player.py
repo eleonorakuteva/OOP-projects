@@ -51,6 +51,9 @@ class Player:
             raise ValueError("Stamina not valid!")
         self.__stamina = value
 
+    def __lt__(self, other):
+        return self.stamina < other.stamina
+
     def __str__(self):
-        return f"Player: {self.name}, {self.age}, {self.stamina}, {self.need_sustenance}"
+        return f"Player: {self.name}, {self.age}, {self.stamina}, {self._need_sustenance}"
 
