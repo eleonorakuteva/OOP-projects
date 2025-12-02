@@ -14,4 +14,3 @@ class AstronautRepository:
 
     def find_by_name(self, name: str):
         return next((a for a in self.astronauts if a.name == name), None)
-    
