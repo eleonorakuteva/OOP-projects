@@ -54,7 +54,9 @@ class BaseTeam(ABC):
     def get_statistics(self) -> str:
         total_price_of_team_equipment = sum(e.price for e in self.equipment)
 
-        avg_team_protection = sum(e.protection for e in self.equipment) / len(self.equipment)
+        avg_team_protection = 0
+        if self.equipment:
+            avg_team_protection = sum(e.protection for e in self.equipment) / len(self.equipment)
 
         result = [
             f"Name: {self.name}",
