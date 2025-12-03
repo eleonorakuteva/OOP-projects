@@ -8,7 +8,8 @@ class KneePad(BaseEquipment):
     INCREASING_PRICE_PERCENT = 1.2
 
     def __init__(self):
-        super().__init__(self.INITIAL_PROTECTION, self.INITIAL_PRICE)
+        super().__init__(protection=self.INITIAL_PROTECTION, price=self.INITIAL_PRICE)
 
     def increase_price(self):
         self.price *= self.INCREASING_PRICE_PERCENT
+
