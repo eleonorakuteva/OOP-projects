@@ -11,3 +11,7 @@ class IndoorTeam(BaseTeam):
     def win(self):
         self.advantage += self.ADVANTAGE_POINTS_PER_WIN
         self.wins += 1
+
+    @property
+    def type(self):
+        return "IndoorTeam"
