@@ -58,11 +58,8 @@ class Tournament:
         return f"{team_type} was successfully added."
 
     def sell_equipment(self, equipment_type: str, team_name: str):
-        # TODO:	Take the last equipment of the given type from the collection.
 
-        equipment: BaseEquipment = self.VALID_EQUIPMENT_TYPES[equipment_type]()
-        self.equipment.append(equipment)
-
+        equipment = self._find_equipment_reversed_by_type(equipment_type)
 
         team = self._find_team_by_name(team_name)
         if not self._is_team_have_enough_budget(team, equipment.price):
@@ -87,10 +84,14 @@ class Tournament:
             raise Exception(f"The team has {team.wins} wins! Removal is impossible!")
 
         self.teams.remove(team)
+        return f"Successfully removed {team_name}."
 
     def increase_equipment_price(self, equipment_type: str):
-        if self._find_equipment_by_type(equipment_type) is not None:
-            [e.increase_price() for e in self.equipment if type(e).__name__ == equipment_type]
+        changed_equipments_sum = 0
+        if self._find_equipment_reversed_by_type(equipment_type) is not None:
+            changed = [e.increase_price() for e in self.equipment if type(e).__name__ == equipment_type]
+            changed_equipments_sum = len(changed)
+        return f"Successfully changed {changed_equipments_sum}pcs of equipment."
 
 
     def play(self, team_name1: str, team_name2: str):
@@ -100,10 +101,10 @@ class Tournament:
         if team_1.type != team_2.type:
             raise Exception("Game cannot start! Team types mismatch!")
 
-        return self._calculate_winner(team_1, team_2)
+        return self._return_winner(team_1, team_2)
 
     @staticmethod
-    def _calculate_winner(team1, team2):
+    def _return_winner(team1, team2):
         if team1.result_points_advantage_and_protection() > team2.result_points_advantage_and_protection():
             team1.win()
             return f"The winner is {team1.name}."
@@ -129,8 +130,10 @@ class Tournament:
     def _find_team_by_name(self, team_name):
         return next((t for t in self.teams if t.name == team_name), None)
 
-    def _find_equipment_by_type(self, equipment_type):
-        equipment = next((e for e in self.equipment if type(e).__name__ == equipment_type), None)
+
+    def _find_equipment_reversed_by_type(self, equipment_type):
+        reverse_equipment = self.equipment[::-1]
+        equipment = next((e for e in reverse_equipment if type(e).__name__ == equipment_type), None)
         return equipment
 
 
