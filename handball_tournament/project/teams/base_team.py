@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from project.equipment.base_equipment import BaseEquipment
 
 
 class BaseTeam(ABC):
@@ -11,7 +12,7 @@ class BaseTeam(ABC):
         self.advantage = advantage
         self.budget = budget
         self.wins: int = 0
-        self.equipment: list = []
+        self.equipment: list[BaseEquipment] = []
 
 
     @property
@@ -50,9 +51,14 @@ class BaseTeam(ABC):
         pass
 
     def get_statistics(self) -> str:
-        total_price_of_team_equipment = 0
+        total_price_of_team_equipment = sum(e.price for e in self.equipment)
+
         avg_team_protection = 0
-        # TODO: Average Protection refers to the property protection of each piece of equipment that the team has in its equipment collection. Round the average protection to the smaller integer
+
+        # TODO: Average Protection refers to the property protection
+        #  of each piece of equipment that the team has in its equipment collection.
+        #  Round the average protection to the smaller integer
+
         result = [
             f"Name: {self.name}",
             f"Country: {self.country}",
