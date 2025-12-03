@@ -51,6 +51,18 @@ class BaseTeam(ABC):
     def win(self):
         pass
 
+    @property
+    @abstractmethod
+    def type(self):
+        pass
+
+    def result_points_advantage_and_protection(self):
+        protection = 0
+        if self.equipment:
+            protection = sum(e.protection for e in self.equipment)
+
+        return protection + self.advantage
+
     def get_statistics(self) -> str:
         total_price_of_team_equipment = sum(e.price for e in self.equipment)
 
