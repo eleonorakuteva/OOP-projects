@@ -57,7 +57,7 @@ class Tournament:
         self.teams.append(new_team)
         return f"{team_type} was successfully added."
 
-    def sell_equipments(self, equipment_type: str, team_name: str):
+    def sell_equipment(self, equipment_type: str, team_name: str):
         pass
 
     def remove_team(self, team_name: str):
