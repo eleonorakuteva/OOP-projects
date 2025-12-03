@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from math import floor
 from project.equipment.base_equipment import BaseEquipment
 
 
@@ -53,11 +54,7 @@ class BaseTeam(ABC):
     def get_statistics(self) -> str:
         total_price_of_team_equipment = sum(e.price for e in self.equipment)
 
-        avg_team_protection = 0
-
-        # TODO: Average Protection refers to the property protection
-        #  of each piece of equipment that the team has in its equipment collection.
-        #  Round the average protection to the smaller integer
+        avg_team_protection = sum(e.protection for e in self.equipment) / len(self.equipment)
 
         result = [
             f"Name: {self.name}",
@@ -66,7 +63,7 @@ class BaseTeam(ABC):
             f"Budget: {self.budget:.2f}EUR",
             f"Wins: {self.wins}",
             f"Total Equipment Price: {total_price_of_team_equipment:.2f}",
-            f"Average Protection: {avg_team_protection}"
+            f"Average Protection: {floor(avg_team_protection)}"
         ]
 
         return '\n'.join(result)
