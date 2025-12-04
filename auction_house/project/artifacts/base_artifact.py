@@ -44,6 +44,6 @@ class BaseArtifact(ABC):
         pass
 
     def artifact_information(self):
-        return (f"{self.type()}: {self.name}; "
+        return (f"{self.type}: {self.name}; "
                 f"Price: {self.price:.2f}; "
                 f"Required space: {self.space_required}")
