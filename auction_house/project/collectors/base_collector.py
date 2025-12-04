@@ -17,7 +17,7 @@ class BaseCollector(ABC):
 
     @name.setter
     def name(self, value: str):
-        if not all(char.isalnum() or char.isspace() for char in value):
+        if not all(char.isalnum() or char.isspace() for char in value.strip()):
             raise ValueError("Collector name must contain letters, numbers, and optional white spaces between them!")
         self.__name = value
 
