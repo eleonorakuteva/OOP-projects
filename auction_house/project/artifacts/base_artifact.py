@@ -38,6 +38,7 @@ class BaseArtifact(ABC):
             raise ValueError("Space required for the artifact exhibition must be between 1 and 1000!")
         self.__space_required = value
 
+    @property
     @abstractmethod
     def type(self):
         pass
