@@ -50,7 +50,7 @@ class BaseCollector(ABC):
 
     def __str__(self):
 
-        sorted_artifacts = sorted(self.purchased_artifacts, key=lambda a: -a.name)
+        sorted_artifacts = sorted(self.purchased_artifacts, key=lambda a: a.name, reverse=True)
 
         artifacts = "none"
         if self.purchased_artifacts:
