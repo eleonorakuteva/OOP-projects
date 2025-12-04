@@ -91,8 +91,25 @@ class AuctionHouseManagerApp:
 
 
 
-    def get_auction_report(self):
-        pass
+    def get_auction_report(self) -> str:
+
+        count_of_sold_artifacts = sum(len(c.purchased_artifacts) for c in self.collectors)
+        count_of_available_artifacts = len(self.artifacts)
+
+        sorted_collectors = sorted(self.collectors,
+                                   key=lambda c: (-c.purchased_artifacts, c.name))
+
+        result = [
+            "**Auction statistics**",
+            f"Total number of sold artifacts: {count_of_sold_artifacts}",
+            f"Available artifacts for sale: {count_of_available_artifacts}",
+            "***",
+        ]
+
+        for collector in sorted_collectors:
+            result.append(collector.__str__())
+
+        return '\n'.join(result)
 
 
     def _search_by_collector_name(self, collector_name):
