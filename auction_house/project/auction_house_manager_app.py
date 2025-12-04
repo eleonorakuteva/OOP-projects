@@ -72,10 +72,24 @@ class AuctionHouseManagerApp:
 
 
     def remove_artifact(self, artifact_name: str):
-        pass
+        curr_artifact = self._search_by_artifact_name(artifact_name)
+        if curr_artifact is None:
+            return "No such artifact."
+
+        self.artifacts.remove(curr_artifact)
+        return f"Removed {curr_artifact.artifact_information()}"
 
     def fundraising_campaigns(self, max_money: float):
-        pass
+        filtered_collectors = self._extract_collectors_with_less_or_equal_money(max_money)
+        count_filtered_collectors = len(filtered_collectors)
+        [c.increase_money() for c in filtered_collectors]
+        return f"{count_filtered_collectors} collector/s increased their available money."
+
+    def _extract_collectors_with_less_or_equal_money(self, money) -> list[BaseCollector] | None:
+        collectors = [ c for c in self.collectors if c.available_money <= money]
+        return collectors if collectors else None
+
+
 
     def get_auction_report(self):
         pass
