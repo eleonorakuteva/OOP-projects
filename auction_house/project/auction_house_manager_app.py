@@ -81,8 +81,10 @@ class AuctionHouseManagerApp:
 
     def fundraising_campaigns(self, max_money: float):
         filtered_collectors = self._extract_collectors_with_less_or_equal_money(max_money)
-        count_filtered_collectors = len(filtered_collectors)
-        [c.increase_money() for c in filtered_collectors]
+        count_filtered_collectors = 0
+        if filtered_collectors:
+            count_filtered_collectors = len(filtered_collectors)
+            [c.increase_money() for c in filtered_collectors]
         return f"{count_filtered_collectors} collector/s increased their available money."
 
     def _extract_collectors_with_less_or_equal_money(self, money) -> list[BaseCollector] | None:
