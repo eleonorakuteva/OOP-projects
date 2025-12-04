@@ -1,3 +1,6 @@
+from project.auction_house_manager_app import AuctionHouseManagerApp
+
+
 # Create an instance of AuctionHouseManagerApp
 manager = AuctionHouseManagerApp()
 # Register artifacts
