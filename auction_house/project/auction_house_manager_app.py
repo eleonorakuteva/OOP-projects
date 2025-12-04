@@ -97,7 +97,7 @@ class AuctionHouseManagerApp:
         count_of_available_artifacts = len(self.artifacts)
 
         sorted_collectors = sorted(self.collectors,
-                                   key=lambda c: (-c.purchased_artifacts, c.name))
+                                   key=lambda c: (-len(c.purchased_artifacts), c.name))
 
         result = [
             "**Auction statistics**",
