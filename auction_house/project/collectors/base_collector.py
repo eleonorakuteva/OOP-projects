@@ -46,7 +46,7 @@ class BaseCollector(ABC):
         pass
 
     def can_purchase(self, artifact_price: float, artifact_space_required: int) -> bool:
-        return self.__available_money >= artifact_price and self.__available_space >= artifact_space_required
+        return self.available_money >= artifact_price and self.available_space >= artifact_space_required
 
     def __str__(self):
 
