@@ -83,7 +83,7 @@ class FlowerShopManager:
         client.update_total_orders()
         client.update_discount()
 
-        return f"{quantity_to_sold}pcs. of {plant_name} plant sold for {order_amount}"
+        return f"{quantity_to_sold}pcs. of {plant_name} plant sold for {order_amount:.2f}"
 
     def _update_count_of_orders(self):
         self.count_of_orders += 1
@@ -103,12 +103,35 @@ class FlowerShopManager:
         return f"{len(removed_clients)} client/s removed."
 
     def shop_report(self):
+
+
+
         result = [
             "~Flower Shop Report~",
-            f"Income: {self.income}",
+            f"Income: {self.income:.2f}",
             f"Count of orders: {self.count_of_orders}",
             f"~~Unsold plants: {len(self.plants)}~~"
         ]
+
+        if self.plants:
+            plants_dict = {}
+            for plant in self.plants:
+                if plant.name not in plants_dict:
+                    plants_dict[plant.name] = 0
+                plants_dict[plant.name] += 1
+
+            sorted_plants = sorted(plants_dict.items(), key=lambda kvp: (-kvp[1], kvp[0]))
+
+            for plant_name, count in sorted_plants:
+                result.append(f"{plant_name}: {count}")
+
+        result.append(f"~~Clients number: {len(self.clients)}~~")
+
+        if self.clients:
+
+            sorted_clients = sorted(self.clients, key=lambda c: (-c.total_orders, c.phone_number))
+            for client in self.clients:
+                result.append(client.client_details())
 
         return '\n'.join(result)
 
