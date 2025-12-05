@@ -25,6 +25,5 @@ class LeafPlant(BasePlant):
                 f"Watering: {self.water_needed}ml, "
                 f"Size: {self.size}")
 
-l = LeafPlant("name", 9.9999, 10, "S")
-print(l.plant_details())
+
 
