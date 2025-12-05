@@ -100,11 +100,10 @@ class FlowerShopManager:
         removed_clients = [c for c in self.clients if c.total_orders == 0]
         if removed_clients:
             [self.clients.remove(c) for c in removed_clients]
+
         return f"{len(removed_clients)} client/s removed."
 
-    def shop_report(self):
-
-
+    def shop_report(self) -> str:
 
         result = [
             "~Flower Shop Report~",
@@ -113,25 +112,23 @@ class FlowerShopManager:
             f"~~Unsold plants: {len(self.plants)}~~"
         ]
 
-        if self.plants:
-            plants_dict = {}
-            for plant in self.plants:
-                if plant.name not in plants_dict:
-                    plants_dict[plant.name] = 0
-                plants_dict[plant.name] += 1
+        plants_dict = {}
+        for plant in self.plants:
+            if plant.name not in plants_dict:
+                plants_dict[plant.name] = 0
+            plants_dict[plant.name] += 1
 
-            sorted_plants = sorted(plants_dict.items(), key=lambda kvp: (-kvp[1], kvp[0]))
+        sorted_plants = sorted(plants_dict.items(), key=lambda kvp: (-kvp[1], kvp[0]))
 
-            for plant_name, count in sorted_plants:
-                result.append(f"{plant_name}: {count}")
+        for plant_name, count in sorted_plants:
+            result.append(f"{plant_name}: {count}")
 
         result.append(f"~~Clients number: {len(self.clients)}~~")
 
-        if self.clients:
 
-            sorted_clients = sorted(self.clients, key=lambda c: (-c.total_orders, c.phone_number))
-            for client in self.clients:
-                result.append(client.client_details())
+        sorted_clients = sorted(self.clients, key=lambda c: (-c.total_orders, c.phone_number))
+        for client in sorted_clients:
+            result.append(client.client_details())
 
         return '\n'.join(result)
 
