@@ -22,7 +22,6 @@ class FlowerShopManager:
         self.income: float = 0.0
         self.plants: list[BasePlant] = []
         self.clients: list[BaseClient] = []
-        self.count_of_orders = 0
 
     def add_plant(self, plant_type: str, plant_name: str, plant_price: float, plant_water_needed: int, plant_extra_data: str):
         try:
@@ -78,15 +77,12 @@ class FlowerShopManager:
             price_curr_plant = curr_plant.price - (curr_plant.price * client.discount / 100)
             order_amount += price_curr_plant
 
-        self._update_count_of_orders()
         self.income += order_amount
         client.update_total_orders()
         client.update_discount()
 
         return f"{quantity_to_sold}pcs. of {plant_name} plant sold for {order_amount:.2f}"
 
-    def _update_count_of_orders(self):
-        self.count_of_orders += 1
 
     def remove_plant(self, plant_name: str):
         plant = self._check_for_existence_plant_by_plant_name(plant_name)
@@ -104,11 +100,12 @@ class FlowerShopManager:
         return f"{len(removed_clients)} client/s removed."
 
     def shop_report(self) -> str:
+        count_of_all_orders = sum(c.total_orders for c in self.clients)
 
         result = [
             "~Flower Shop Report~",
             f"Income: {self.income:.2f}",
-            f"Count of orders: {self.count_of_orders}",
+            f"Count of orders: {count_of_all_orders}",
             f"~~Unsold plants: {len(self.plants)}~~"
         ]
 
