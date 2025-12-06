@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from project.astronauts.base_astronaut import BaseAstronaut
 
 
